@@ -1,0 +1,18 @@
+plugins {
+    id 'java'
+}
+
+group 'me.synnk'
+version '0.1'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+}
+
+test {
+    useJUnitPlatform()
+}
