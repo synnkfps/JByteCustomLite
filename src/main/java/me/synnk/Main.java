@@ -4,7 +4,7 @@ import me.synnk.Interface.Frame;
 
 public class Main {
     public static String NAME = "JByteCustom Lite";
-    public static String VERSION = "0.1";
+    public static String VERSION = "0.3";
     public static String PREFIX = "jbcl";
 
     public static void main(String[] args) {
