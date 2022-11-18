@@ -4,14 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="31ac594c-d762-4f00-a262-d5ee5e1a416d" name="Changes" comment="more components to gui">
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Utils/TreeManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/java.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+    <list default="true" id="31ac594c-d762-4f00-a262-d5ee5e1a416d" name="Changes" comment="theme and now i discovered how to use jtree">
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Managers/SettingType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Managers/SettingsManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/jbclite.jbc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Interface/Frame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Interface/Frame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Utils/Logger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Utils/Logger.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,6 +54,9 @@
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\SynnK\IdeaProjects\JByteCustomLite\src\main\resources" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\SynnK\IdeaProjects\JByteCustomLite\src\main\resources" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application">
@@ -82,8 +83,18 @@
       <option name="project" value="LOCAL" />
       <updated>1668724434293</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="theme and now i discovered how to use jtree">
+      <created>1668738393632</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1668738393632</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.jbc" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -98,6 +109,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="more components to gui" />
-    <option name="LAST_COMMIT_MESSAGE" value="more components to gui" />
+    <MESSAGE value="theme and now i discovered how to use jtree" />
+    <option name="LAST_COMMIT_MESSAGE" value="theme and now i discovered how to use jtree" />
   </component>
 </project>

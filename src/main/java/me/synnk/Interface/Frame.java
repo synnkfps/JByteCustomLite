@@ -1,5 +1,7 @@
 package me.synnk.Interface;
 
+import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatLightLaf;
 import me.synnk.Main;
 
 import javax.swing.*;
@@ -9,6 +11,10 @@ import java.net.URL;
 public class Frame extends JFrame {
     public Integer width = 1400;
     public Integer height = 750;
+
+    public void close() {
+        this.dispose();
+    }
 
     public void addMainComponents() {
         // Jar Class Directory
@@ -38,7 +44,7 @@ public class Frame extends JFrame {
 
         // Decompilers
         String[] dec = {"CFR v0.152", "Procyon 1.0.0", "QuiltFlower", "FernFlower", "Jadx"};
-        JComboBox<String> decompilers = new JComboBox<String>(dec);
+        JComboBox<String> decompilers = new JComboBox<>(dec);
         decompilers.setBounds(width-130, 10, 100, 20);
 
         // add stuff
@@ -47,6 +53,7 @@ public class Frame extends JFrame {
         add(className);
         add(decompilers);
     }
+
     public void addMenuBar() {
         // Menu Bar
         JMenuBar stuff = new JMenuBar();
@@ -82,8 +89,26 @@ public class Frame extends JFrame {
             dispose();
         });
 
+        // Dumb theme switcher
+        // WIP
         lightTheme.addActionListener(e -> {
+            if (darkTheme.isSelected()) {
+                darkTheme.setSelected(false);
+                lightTheme.setSelected(true);
+            }
+            if (!lightTheme.isSelected()) {
+                lightTheme.setSelected(true);
+            }
+        });
 
+        darkTheme.addActionListener(e -> {
+            if (lightTheme.isSelected()) {
+                lightTheme.setSelected(false);
+                darkTheme.setSelected(true);
+            }
+            if (!darkTheme.isSelected()) {
+                darkTheme.setSelected(true);
+            }
         });
 
         setJMenuBar(stuff);
