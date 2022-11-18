@@ -46,6 +46,48 @@ public class SettingsManager {
         }
     }
 
+    // useless function
+    public static void verifySettings() {
+        boolean stillValid = false;
+        boolean hasExtras = false;
+        for (String i: readSettings()) {
+            String splitted = i.split(":")[1].toLowerCase(); // cuz :[0] will be the setting name
+
+            if (splitted.equals("true") || splitted.equals("false")) {
+                System.out.println("Value " + splitted + " is a boolean.");
+                stillValid = true;
+                hasExtras = true;
+            } else if (splitted.charAt(0)=='\'' && splitted.charAt(splitted.length()-1)=='\'') {
+                System.out.println("Value " + splitted + " is a string");
+                stillValid = true;
+                hasExtras = true;
+            }
+
+            if (splitted.contains(".")){
+                try {
+                    Float.parseFloat(splitted);
+                    System.out.println("Value " + splitted + " is a float/double.");
+                    stillValid = true;
+                } catch (Exception e) {
+                    stillValid = false;
+                }
+            } else {
+                try {
+                    Integer.parseInt(splitted);
+                    System.out.println("Value " + splitted + " is a integer.");
+                    stillValid = true;
+                } catch (Exception e) {
+                    stillValid = false;
+                }
+            }
+
+            // todo: check if is invalid
+            if (!stillValid && !hasExtras) {
+                System.out.println("Value " + splitted + " is invalid.");
+            }
+        }
+    }
+
     public static void append(String setting_name, String value) {
         boolean alreadyExists = false;
         File file = new File(path);
@@ -75,5 +117,6 @@ public class SettingsManager {
         for (String setting: readSettings()) {
             Logger.Log(LogType.INFO, "Setting initialized > " + setting);
         }
+        verifySettings();
     }
 }

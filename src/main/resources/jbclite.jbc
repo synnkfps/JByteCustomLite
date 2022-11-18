@@ -1,4 +1,6 @@
 testFile:true
-dieFile:false
-theme:1
-decompiler:cfr
+doido:true
+decompiler:'cfr'
+caution:3
+opacity:3.551
+test:FuckYou

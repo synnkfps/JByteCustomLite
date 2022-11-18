@@ -12,20 +12,14 @@ public class Frame extends JFrame {
     public Integer width = 1400;
     public Integer height = 750;
 
-    public void close() {
-        this.dispose();
-    }
-
     public void addMainComponents() {
         // Jar Class Directory
         // Testing
         DefaultMutableTreeNode style=new DefaultMutableTreeNode("testJar");
         DefaultMutableTreeNode color=new DefaultMutableTreeNode("me");
         DefaultMutableTreeNode font=new DefaultMutableTreeNode("synnk");
-        DefaultMutableTreeNode e = new DefaultMutableTreeNode("JByteCustomLite");
         DefaultMutableTreeNode w = new DefaultMutableTreeNode("Main.class");
-        e.add(w);
-        font.add(e);
+        font.add(w);
         color.add(font);
         style.add(color);
 

@@ -1,5 +1,7 @@
 package me.synnk.Managers;
 
-public enum SettingType {
-    STRING, INTEGER, BOOLEAN
+import java.util.ArrayList;
+
+public class SettingType {
+    public static String[] AVAILABLE_SETTINGS = {"true", "false"};
 }
