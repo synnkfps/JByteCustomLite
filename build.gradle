@@ -1,5 +1,10 @@
 plugins {
     id 'java'
+    id 'application'
+}
+
+application {
+    mainClass = 'me.synnk.Main'
 }
 
 group 'me.synnk'
@@ -11,6 +16,14 @@ repositories {
 
 dependencies {
     implementation 'com.formdev:flatlaf:2.6'
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'me.synnk.Main'
+        )
+    }
 }
 
 test {

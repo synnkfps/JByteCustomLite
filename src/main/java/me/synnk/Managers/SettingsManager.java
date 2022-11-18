@@ -1,5 +1,8 @@
 package me.synnk.Managers;
 
+import me.synnk.Utils.LogType;
+import me.synnk.Utils.Logger;
+
 import java.io.*;
 import java.util.ArrayList;
 
@@ -36,24 +39,41 @@ public class SettingsManager {
     public static void getSetting(String setting_name)  {
         ArrayList<String> result = readSettings();
         for (String i: result) {
-            System.out.println(i);
+            if (i.toLowerCase().contains(setting_name.toLowerCase())) {
+                System.out.println("Setting Found: name=" + i.split(":")[0] + " value=" + i.split(":")[1]);
+                break;
+            }
         }
     }
 
     public static void append(String setting_name, String value) {
-        try {
-            FileWriter f = new FileWriter(path, true);
-            BufferedWriter b = new BufferedWriter(f);
-            PrintWriter p = new PrintWriter(b);
+        boolean alreadyExists = false;
+        File file = new File(path);
+        FileWriter fr = null;
 
-            p.println(setting_name+":"+value);
-            f.close(); b.close(); p.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        for (String i: readSettings()) {
+            if (i.contains(setting_name)) {
+                System.out.println("Setting name already exists.");
+                alreadyExists = true;
+                break;
+            }
+        }
+        try {
+            if (!alreadyExists) {
+                fr = new FileWriter(file, true);
+                fr.write("\n" + setting_name + ":" + value);
+            }
+            assert fr != null;
+            fr.close();
+        } catch (Exception ignored) {
+
         }
     }
 
-    public static void main(String[] args) {
-        getSetting("dieFile");
+    public static void initSettings() {
+        Logger.Log(LogType.INFO, "Settings Manager Initializing...");
+        for (String setting: readSettings()) {
+            Logger.Log(LogType.INFO, "Setting initialized > " + setting);
+        }
     }
 }
