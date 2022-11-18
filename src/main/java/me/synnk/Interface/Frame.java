@@ -15,9 +15,9 @@ public class Frame extends JFrame {
     public void addMainComponents() {
         // Jar Class Directory
         // Testing
-        DefaultMutableTreeNode style=new DefaultMutableTreeNode("testJar");
-        DefaultMutableTreeNode color=new DefaultMutableTreeNode("me");
-        DefaultMutableTreeNode font=new DefaultMutableTreeNode("synnk");
+        DefaultMutableTreeNode style = new DefaultMutableTreeNode("testJar");
+        DefaultMutableTreeNode color = new DefaultMutableTreeNode("me");
+        DefaultMutableTreeNode font = new DefaultMutableTreeNode("synnk");
         DefaultMutableTreeNode w = new DefaultMutableTreeNode("Main.class");
         font.add(w);
         color.add(font);
@@ -89,6 +89,7 @@ public class Frame extends JFrame {
             if (darkTheme.isSelected()) {
                 darkTheme.setSelected(false);
                 lightTheme.setSelected(true);
+
             }
             if (!lightTheme.isSelected()) {
                 lightTheme.setSelected(true);

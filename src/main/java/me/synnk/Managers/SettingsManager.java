@@ -1,8 +1,10 @@
 package me.synnk.Managers;
 
+import me.synnk.Main;
 import me.synnk.Utils.LogType;
 import me.synnk.Utils.Logger;
 
+import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
 
@@ -109,6 +111,23 @@ public class SettingsManager {
             fr.close();
         } catch (Exception ignored) {
 
+        }
+    }
+
+    public static void load() {
+        for (String setting: readSettings()) {
+            String name = setting.split(":")[0];
+            String value = setting.split(":")[1];
+
+            if (name.equals("showWelcome") && value.equals("true")) {
+                JOptionPane.showMessageDialog(null, "Welcome to JByteCustom Lite!");
+            }
+            if (name.equals("defaultTheme") && value.equals("0")) {
+                Main.PreferredTheme = Main.LIGHT;
+            }
+            if (name.equals("defaultTheme") && value.equals("1")){
+                Main.PreferredTheme = Main.DARK;
+            }
         }
     }
 

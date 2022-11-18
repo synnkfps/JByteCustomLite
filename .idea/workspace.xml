@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="31ac594c-d762-4f00-a262-d5ee5e1a416d" name="Changes" comment="kinda working SettingsManager and im still tryna figure out how i will really load the settings.">
+    <list default="true" id="31ac594c-d762-4f00-a262-d5ee5e1a416d" name="Changes" comment="now it detects invalid settings">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Interface/Frame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Interface/Frame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Managers/SettingType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Managers/SettingType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Managers/SettingType.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Managers/SettingsManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Managers/SettingsManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/jbclite.jbc" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/jbclite.jbc" afterDir="false" />
     </list>
@@ -155,7 +156,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668782463237</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="now it detects invalid settings">
+      <created>1668804666703</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1668804666703</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -176,6 +184,7 @@
     <MESSAGE value="more components to gui" />
     <MESSAGE value="theme and now i discovered how to use jtree" />
     <MESSAGE value="kinda working SettingsManager and im still tryna figure out how i will really load the settings." />
-    <option name="LAST_COMMIT_MESSAGE" value="kinda working SettingsManager and im still tryna figure out how i will really load the settings." />
+    <MESSAGE value="now it detects invalid settings" />
+    <option name="LAST_COMMIT_MESSAGE" value="now it detects invalid settings" />
   </component>
 </project>
