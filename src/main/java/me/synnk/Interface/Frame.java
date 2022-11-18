@@ -3,6 +3,8 @@ package me.synnk.Interface;
 import me.synnk.Main;
 
 import javax.swing.*;
+import javax.swing.tree.DefaultMutableTreeNode;
+import java.net.URL;
 
 public class Frame extends JFrame {
     public Integer width = 1400;
@@ -10,8 +12,20 @@ public class Frame extends JFrame {
 
     public void addMainComponents() {
         // Jar Class Directory
-        JTree dir = new JTree();
-        dir.setBounds(15, 5, 260, height-90);
+        // Testing
+        DefaultMutableTreeNode style=new DefaultMutableTreeNode("testJar");
+        DefaultMutableTreeNode color=new DefaultMutableTreeNode("me");
+        DefaultMutableTreeNode font=new DefaultMutableTreeNode("synnk");
+        DefaultMutableTreeNode e = new DefaultMutableTreeNode("JByteCustomLite");
+        DefaultMutableTreeNode w = new DefaultMutableTreeNode("Main.class");
+        e.add(w);
+        font.add(e);
+        color.add(font);
+        style.add(color);
+
+        // JTree
+        JTree dir = new JTree(style);
+        dir.setBounds(10, 5, 270, height-90);
 
         // File Name
         JLabel className = new JLabel("Current Class: ");
@@ -38,25 +52,38 @@ public class Frame extends JFrame {
         JMenuBar stuff = new JMenuBar();
 
         JMenu file = new JMenu("File");
-        JMenu about = new JMenu("About");
+        JMenu settings = new JMenu("Settings");
+
+        JRadioButtonMenuItem lightTheme = new JRadioButtonMenuItem("Light Theme");
+        JRadioButtonMenuItem darkTheme = new JRadioButtonMenuItem("Dark Theme");
+
+        lightTheme.setSelected(true);
 
         JMenuItem open = new JMenuItem("Open Jar");
         JMenuItem close = new JMenuItem("Close Jar");
-
         JMenuItem exit = new JMenuItem("Exit");
 
         // adding
         stuff.add(file);
-        stuff.add(about);
+        stuff.add(settings);
 
+        // File tab
         file.add(open);
         file.add(close);
         file.add(exit);
+
+        // Settings tab
+        settings.add(lightTheme);
+        settings.add(darkTheme);
 
         // Actions
         exit.addActionListener(e -> {
             JOptionPane.showMessageDialog(null, "Thank you for using JByteCustom Lite!");
             dispose();
+        });
+
+        lightTheme.addActionListener(e -> {
+
         });
 
         setJMenuBar(stuff);
@@ -65,6 +92,12 @@ public class Frame extends JFrame {
     public Frame() {
         addMenuBar();
         addMainComponents();
+
+        URL iconURL = Main.class.getResource("/java.png");
+
+        assert iconURL != null;
+        ImageIcon icon = new ImageIcon(iconURL);
+        setIconImage(icon.getImage());
 
         setLayout(null); // ill change to gridbaglayout in future
         setTitle(Main.NAME + " " + Main.VERSION); // to do: show opened jar file

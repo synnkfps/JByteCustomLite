@@ -3,7 +3,6 @@ package me.synnk.Utils;
 import java.lang.*;
 import java.util.Date;
 
-
 public class Logger {
     public static void Log(LogType level, String message) {
         Date d = new Date();
