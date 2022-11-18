@@ -61,29 +61,29 @@ public class SettingsManager {
                 System.out.println("Value " + splitted + " is a string");
                 stillValid = true;
                 hasExtras = true;
-            }
-
-            if (splitted.contains(".")){
-                try {
-                    Float.parseFloat(splitted);
-                    System.out.println("Value " + splitted + " is a float/double.");
-                    stillValid = true;
-                } catch (Exception e) {
-                    stillValid = false;
-                }
             } else {
-                try {
-                    Integer.parseInt(splitted);
-                    System.out.println("Value " + splitted + " is a integer.");
-                    stillValid = true;
-                } catch (Exception e) {
-                    stillValid = false;
+                if (splitted.contains(".")) {
+                    try {
+                        Float.parseFloat(splitted);
+                        System.out.println("Value " + splitted + " is a float/double.");
+                        stillValid = true;
+                        hasExtras = true;
+                    } catch (Exception e) {
+                        stillValid = false;
+                    }
+                } else if (!splitted.contains(".")) {
+                    try {
+                        Integer.parseInt(splitted);
+                        System.out.println("Value " + splitted + " is a integer.");
+                        stillValid = true;
+                        hasExtras = true;
+                    } catch (Exception e) {
+                        stillValid = false;
+                    }
                 }
-            }
-
-            // todo: check if is invalid
-            if (!stillValid && !hasExtras) {
-                System.out.println("Value " + splitted + " is invalid.");
+                if (!stillValid) {
+                    System.out.println("Value " + splitted + " is unknown.");
+                }
             }
         }
     }
