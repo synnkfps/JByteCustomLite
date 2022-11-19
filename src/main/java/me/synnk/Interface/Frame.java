@@ -4,10 +4,16 @@ import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import me.synnk.Main;
 import me.synnk.Managers.SettingsManager;
+import me.synnk.Utils.EnumerationUtils;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.jar.JarFile;
 
 public class Frame extends JFrame {
     public Integer width = 1400;
@@ -17,17 +23,36 @@ public class Frame extends JFrame {
         // Jar Class Directory
         // Testing
         DefaultMutableTreeNode style = new DefaultMutableTreeNode("testJar");
-        DefaultMutableTreeNode color = new DefaultMutableTreeNode("me");
-        DefaultMutableTreeNode font = new DefaultMutableTreeNode("synnk");
-        DefaultMutableTreeNode w = new DefaultMutableTreeNode("Main.class");
-        font.add(w);
-        color.add(font);
-        style.add(color);
+        /// DefaultMutableTreeNode color = new DefaultMutableTreeNode("me");
+        /// DefaultMutableTreeNode font = new DefaultMutableTreeNode("synnk");
+        /// DefaultMutableTreeNode w = new DefaultMutableTreeNode("Main.class");
+        ArrayList<String> known = new ArrayList<>();
+        try {
+            JarFile jar = new JarFile(new File("C:\\Users\\SynnK\\IdeaProjects\\JByteCustomLite\\input\\deobfuscator.jar"));
+            for (Object i: EnumerationUtils.enumerationAsStream(jar.entries()).toArray()) {
+                // System.out.println(Arrays.toString(i.toString().split("/")));
+                if (!Arrays.toString(i.toString().split("/")).contains("$")) {
+                    for (String x : i.toString().split("/")) {
+                        if (!known.contains(i.toString())) {
+                            known.add(x);
+                            System.out.println(x);
+                        } else {
+                            System.out.println("Contains so nvm " + x);
+                        }
+                    }
+                }
+                System.out.println("");
+            }
+        } catch (IOException w) {
+            w.printStackTrace();
+        }
 
         // JTree
         JTree dir = new JTree(style);
         dir.setBounds(10, 5, 270, height-90);
+        JScrollPane qPane = new JScrollPane(dir, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
+        add(qPane);
         // File Name
         JLabel className = new JLabel("Current Class: ");
         className.setBounds(260+5+20, 15, 400, 10);

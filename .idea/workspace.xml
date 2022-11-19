@@ -4,11 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="31ac594c-d762-4f00-a262-d5ee5e1a416d" name="Changes" comment="working defaultTheme and setting loader (yay!!!)">
+    <list default="true" id="31ac594c-d762-4f00-a262-d5ee5e1a416d" name="Changes" comment="added changeSetting(key, new_value) and settings is now working.">
+      <change afterPath="$PROJECT_DIR$/input/dummy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Utils/EnumerationUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Interface/Frame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Interface/Frame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Managers/SettingsManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Managers/SettingsManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/jbclite.jbc" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/jbclite.jbc" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -168,7 +168,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668805723421</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="added changeSetting(key, new_value) and settings is now working.">
+      <created>1668898265602</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1668898265602</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -191,6 +198,7 @@
     <MESSAGE value="kinda working SettingsManager and im still tryna figure out how i will really load the settings." />
     <MESSAGE value="now it detects invalid settings" />
     <MESSAGE value="working defaultTheme and setting loader (yay!!!)" />
-    <option name="LAST_COMMIT_MESSAGE" value="working defaultTheme and setting loader (yay!!!)" />
+    <MESSAGE value="added changeSetting(key, new_value) and settings is now working." />
+    <option name="LAST_COMMIT_MESSAGE" value="added changeSetting(key, new_value) and settings is now working." />
   </component>
 </project>
