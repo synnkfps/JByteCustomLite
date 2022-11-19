@@ -8,8 +8,8 @@ Used for fast, ~efficient~ and light use.
 - [ ] Decompilers
 - [ ] Fully working UI
 - [ ] Portable
-- [ ] Theme Changer
-- [ ] Custom Save/Load Settings (file)
+- [X] Theme Changer (partially working) 
+- [X] Custom Save/Load Settings (file)
 - [ ] Decompilers
 - - [ ] CFR 
 - - [ ] Procyon 
