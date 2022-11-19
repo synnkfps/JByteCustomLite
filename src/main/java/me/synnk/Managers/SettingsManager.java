@@ -7,6 +7,7 @@ import me.synnk.Utils.Logger;
 import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class SettingsManager {
 
@@ -114,6 +115,34 @@ public class SettingsManager {
         }
     }
 
+    public static void changeSetting(String setting_name, String new_value) {
+        ArrayList<String> tempList = new ArrayList<>();
+        for (String setting: readSettings()) {
+            String name = setting.split(":")[0];
+            String value = setting.split(":")[1];
+
+            if (name.equalsIgnoreCase(setting_name)) {
+                tempList.add(name+":"+new_value);
+            } else {
+                tempList.add(name + ":" + value);
+            }
+        }
+
+        try {
+            PrintWriter writer = new PrintWriter(path);
+            writer.print("");
+            writer.close();
+
+            FileWriter f = new FileWriter(path, true);
+            for (String setting: tempList) {
+                f.write(setting+"\n");
+            }
+            f.close();
+        } catch (IOException e) {
+            System.out.println("Error occurred while changing the setting. Stracktrace: " + Arrays.toString(e.getStackTrace()));
+        }
+    }
+
     public static void load() {
         for (String setting: readSettings()) {
             String name = setting.split(":")[0];
@@ -133,6 +162,8 @@ public class SettingsManager {
 
     public static void initSettings() {
         Logger.Log(LogType.INFO, "Settings Manager Initializing...");
+        // changeSetting("showWelcome", "false");
+        // changeSetting("defaultTheme", "0");
         for (String setting: readSettings()) {
             Logger.Log(LogType.INFO, "Setting initialized > " + setting);
         }

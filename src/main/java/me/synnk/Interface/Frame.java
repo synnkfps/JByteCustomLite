@@ -3,6 +3,7 @@ package me.synnk.Interface;
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import me.synnk.Main;
+import me.synnk.Managers.SettingsManager;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -89,7 +90,8 @@ public class Frame extends JFrame {
             if (darkTheme.isSelected()) {
                 darkTheme.setSelected(false);
                 lightTheme.setSelected(true);
-
+                SettingsManager.changeSetting("defaultTheme", "0");
+                showSettingChange();
             }
             if (!lightTheme.isSelected()) {
                 lightTheme.setSelected(true);
@@ -100,6 +102,8 @@ public class Frame extends JFrame {
             if (lightTheme.isSelected()) {
                 lightTheme.setSelected(false);
                 darkTheme.setSelected(true);
+                SettingsManager.changeSetting("defaultTheme", "1");
+                showSettingChange();
             }
             if (!darkTheme.isSelected()) {
                 darkTheme.setSelected(true);
@@ -131,4 +135,6 @@ public class Frame extends JFrame {
     public static void main(String[] args) {
         new Frame();
     }
+
+    public static void showSettingChange(){JOptionPane.showMessageDialog(null, "The settings will take effect on the next restart!");}
 }
