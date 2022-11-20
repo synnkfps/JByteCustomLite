@@ -39,14 +39,15 @@ public class SettingsManager {
     }
 
     // WIP
-    public static void getSetting(String setting_name)  {
-        ArrayList<String> result = readSettings();
-        for (String i: result) {
-            if (i.toLowerCase().contains(setting_name.toLowerCase())) {
-                System.out.println("Setting Found: name=" + i.split(":")[0] + " value=" + i.split(":")[1]);
+    public static String getSetting(String toSearch)  {
+        String tmp = null;
+        for (String setting_name: readSettings()) {
+            if (setting_name.split(":")[0].equalsIgnoreCase(toSearch)) {
+                tmp = setting_name.split(":")[1];
                 break;
             }
         }
+        return tmp;
     }
 
     // useless function

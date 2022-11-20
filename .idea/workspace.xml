@@ -4,11 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="31ac594c-d762-4f00-a262-d5ee5e1a416d" name="Changes" comment="added changeSetting(key, new_value) and settings is now working.">
-      <change afterPath="$PROJECT_DIR$/input/dummy" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Utils/EnumerationUtils.java" afterDir="false" />
+    <list default="true" id="31ac594c-d762-4f00-a262-d5ee5e1a416d" name="Changes" comment="added Jar reading (WIP)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Interface/Frame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Interface/Frame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Managers/SettingsManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Managers/SettingsManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Utils/TreeManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Utils/TreeManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/jbclite.jbc" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/jbclite.jbc" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -175,7 +177,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668898265602</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="added Jar reading (WIP)">
+      <created>1668901772940</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1668901772940</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -199,6 +208,7 @@
     <MESSAGE value="now it detects invalid settings" />
     <MESSAGE value="working defaultTheme and setting loader (yay!!!)" />
     <MESSAGE value="added changeSetting(key, new_value) and settings is now working." />
-    <option name="LAST_COMMIT_MESSAGE" value="added changeSetting(key, new_value) and settings is now working." />
+    <MESSAGE value="added Jar reading (WIP)" />
+    <option name="LAST_COMMIT_MESSAGE" value="added Jar reading (WIP)" />
   </component>
 </project>

@@ -5,6 +5,9 @@ import com.formdev.flatlaf.FlatLightLaf;
 import me.synnk.Main;
 import me.synnk.Managers.SettingsManager;
 import me.synnk.Utils.EnumerationUtils;
+import me.synnk.Utils.LogType;
+import me.synnk.Utils.Logger;
+import me.synnk.Utils.TreeManager;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -13,6 +16,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.function.Consumer;
 import java.util.jar.JarFile;
 
 public class Frame extends JFrame {
@@ -26,13 +30,15 @@ public class Frame extends JFrame {
         /// DefaultMutableTreeNode color = new DefaultMutableTreeNode("me");
         /// DefaultMutableTreeNode font = new DefaultMutableTreeNode("synnk");
         /// DefaultMutableTreeNode w = new DefaultMutableTreeNode("Main.class");
-        ArrayList<String> known = new ArrayList<>();
+        /**ArrayList<String> known = new ArrayList<>();
         try {
             JarFile jar = new JarFile(new File("C:\\Users\\SynnK\\IdeaProjects\\JByteCustomLite\\input\\deobfuscator.jar"));
+            style = TreeManager.treeify(EnumerationUtils.enumerationAsStream(jar.entries()).toArray());
             for (Object i: EnumerationUtils.enumerationAsStream(jar.entries()).toArray()) {
                 // System.out.println(Arrays.toString(i.toString().split("/")));
                 if (!Arrays.toString(i.toString().split("/")).contains("$")) {
                     for (String x : i.toString().split("/")) {
+                        //style.add(new DefaultMutableTreeNode(x));
                         if (!known.contains(i.toString())) {
                             known.add(x);
                             System.out.println(x);
@@ -45,7 +51,7 @@ public class Frame extends JFrame {
             }
         } catch (IOException w) {
             w.printStackTrace();
-        }
+        }*/
 
         // JTree
         JTree dir = new JTree(style);
@@ -84,7 +90,16 @@ public class Frame extends JFrame {
         JRadioButtonMenuItem lightTheme = new JRadioButtonMenuItem("Light Theme");
         JRadioButtonMenuItem darkTheme = new JRadioButtonMenuItem("Dark Theme");
 
-        lightTheme.setSelected(true);
+        switch (SettingsManager.getSetting("defaultTheme")) {
+            case "0":
+                lightTheme.setSelected(true);
+                break;
+            case "1":
+                darkTheme.setSelected(true);
+                break;
+            default:
+                Logger.Log(LogType.ERROR, "defaultTheme option seems invalid.");
+        }
 
         JMenuItem open = new JMenuItem("Open Jar");
         JMenuItem close = new JMenuItem("Close Jar");

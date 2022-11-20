@@ -7,7 +7,7 @@ import me.synnk.Managers.SettingsManager;
 
 public class Main {
     public static String NAME = "JByteCustom Lite";
-    public static String VERSION = "0.8.2";
+    public static String VERSION = "0.8.3";
 
     public static Integer LIGHT = 0;
     public static Integer DARK = 1;
