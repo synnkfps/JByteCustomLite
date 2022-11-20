@@ -8,10 +8,7 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 public final class EnumerationUtils {
-
-    private EnumerationUtils() {
-    }
-
+    private EnumerationUtils() {}
     public static <T> Stream<T> enumerationAsStream(Enumeration<T> e) {
         return StreamSupport.stream(Spliterators.spliteratorUnknownSize(new Iterator<T>() {
             public T next() {

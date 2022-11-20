@@ -16,42 +16,21 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.function.Consumer;
 import java.util.jar.JarFile;
 
 public class Frame extends JFrame {
     public Integer width = 1400;
     public Integer height = 750;
+    public static JTextPane decompiled = new JTextPane();
+    public static JLabel className = new JLabel("Current Class: ");
+    public static ArrayList<String> files = new ArrayList<>();
 
     public void addMainComponents() {
         // Jar Class Directory
         // Testing
         DefaultMutableTreeNode style = new DefaultMutableTreeNode("testJar");
-        /// DefaultMutableTreeNode color = new DefaultMutableTreeNode("me");
-        /// DefaultMutableTreeNode font = new DefaultMutableTreeNode("synnk");
-        /// DefaultMutableTreeNode w = new DefaultMutableTreeNode("Main.class");
-        /**ArrayList<String> known = new ArrayList<>();
-        try {
-            JarFile jar = new JarFile(new File("C:\\Users\\SynnK\\IdeaProjects\\JByteCustomLite\\input\\deobfuscator.jar"));
-            style = TreeManager.treeify(EnumerationUtils.enumerationAsStream(jar.entries()).toArray());
-            for (Object i: EnumerationUtils.enumerationAsStream(jar.entries()).toArray()) {
-                // System.out.println(Arrays.toString(i.toString().split("/")));
-                if (!Arrays.toString(i.toString().split("/")).contains("$")) {
-                    for (String x : i.toString().split("/")) {
-                        //style.add(new DefaultMutableTreeNode(x));
-                        if (!known.contains(i.toString())) {
-                            known.add(x);
-                            System.out.println(x);
-                        } else {
-                            System.out.println("Contains so nvm " + x);
-                        }
-                    }
-                }
-                System.out.println("");
-            }
-        } catch (IOException w) {
-            w.printStackTrace();
-        }*/
 
         // JTree
         JTree dir = new JTree(style);
@@ -60,11 +39,10 @@ public class Frame extends JFrame {
 
         add(qPane);
         // File Name
-        JLabel className = new JLabel("Current Class: ");
-        className.setBounds(260+5+20, 15, 400, 10);
+        className.setBounds(260+5+20, 15, 400, 20);
 
         // Decompiled class / method content
-        JTextPane decompiled = new JTextPane();
+        decompiled.setAutoscrolls(true);
         decompiled.setText("decompiled class stuff will appear here.");
         decompiled.setBounds(260+5+20, 5+30, width-315, (height-90)-30);
 
@@ -101,7 +79,7 @@ public class Frame extends JFrame {
                 Logger.Log(LogType.ERROR, "defaultTheme option seems invalid.");
         }
 
-        JMenuItem open = new JMenuItem("Open Jar");
+        JMenuItem open = new JMenuItem("Open Jar/Class");
         JMenuItem close = new JMenuItem("Close Jar");
         JMenuItem exit = new JMenuItem("Exit");
 
@@ -119,6 +97,28 @@ public class Frame extends JFrame {
         settings.add(darkTheme);
 
         // Actions
+        open.addActionListener(e -> {
+            JFileChooser chooser = new JFileChooser();
+            int action = chooser.showOpenDialog(null);
+            chooser.setDialogType(JFileChooser.OPEN_DIALOG);
+            if (action == JFileChooser.APPROVE_OPTION) {
+                decompiled.setText("");
+                File selectedFile = chooser.getSelectedFile();
+                decompiled.setText(selectedFile.getName());
+                className.setText("Current Class: " + selectedFile.getName());
+                try {
+                    JarFile jar = new JarFile(new File(selectedFile.getAbsolutePath()));
+
+                    // ok ngl i liked it, keeping...
+                    System.out.println(jar.getComment());
+                    System.out.println("Manifest Attributes: "+jar.getManifest().getMainAttributes().values());
+                } catch (IOException w) {
+                    w.printStackTrace();
+                }
+
+            }
+
+        });
         exit.addActionListener(e -> {
             JOptionPane.showMessageDialog(null, "Thank you for using JByteCustom Lite!");
             dispose();

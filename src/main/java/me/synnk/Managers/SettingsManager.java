@@ -75,6 +75,7 @@ public class SettingsManager {
                     } catch (Exception e) {
                         stillValid = false;
                     }
+                // bruh handling
                 } else if (!splitted.contains(".")) {
                     try {
                         Integer.parseInt(splitted);
