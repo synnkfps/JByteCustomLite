@@ -20,5 +20,5 @@ Used for fast, ~efficient~ and light use.
 - [ ] Plugins System [far away, @JohnShiozo]
 
 ## Why
-Because I'm learning Java and JByteCustom had too much bugs, as its base were way too old, so I'm making a updated one with ~almost~ the same essence. <br>
+Because I'm learning Java and JByteCustom had too much bugs, as its base were way too old, so I'm making a updated one from scratch and with ~almost~ the same essence. <br>
 What I want from this project is minimalism, nothing too complicated. 
