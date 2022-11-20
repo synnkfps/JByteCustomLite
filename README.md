@@ -16,3 +16,4 @@ Used for fast, ~efficient~ and light use.
 - - [ ] FernFlower 
 - - [ ] QuiltFlower 
 - - [ ] Jadx 
+- [ ] Plugin System [far away, @JohnShiozo]
