@@ -1,4 +1,4 @@
-package me.synnk.Utils;
+package me.synnk.Managers;
 
 import javax.swing.*;
 

@@ -1,31 +1,35 @@
 plugins {
-    id 'java'
-    id 'application'
+    id "org.jetbrains.kotlin.jvm" version "1.7.20"
+    id "java"
 }
 
-application {
-    mainClass = 'me.synnk.Main'
-}
-
-group 'me.synnk'
-version '0.1'
+version = "0.1"
+group = "me.synnk"
 
 repositories {
     mavenCentral()
+    maven { url "https://jitpack.io/" }
+    maven { url "https://jcenter.bintray.com/" }
+}
+
+configurations {
+    include
+    implementation.extendsFrom include
 }
 
 dependencies {
-    implementation 'com.formdev:flatlaf:2.6'
+    include 'com.formdev:flatlaf:2.6'
+    include 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.20'
 }
 
-jar {
+task shadowJar(type: Jar) {
+    classifier 'release'
+    // set main class
     manifest {
         attributes(
-                'Main-Class': 'me.synnk.Main'
+                "Main-Class": "me.synnk.Main"
         )
     }
 }
 
-test {
-    useJUnitPlatform()
-}
+jar.dependsOn(shadowJar)

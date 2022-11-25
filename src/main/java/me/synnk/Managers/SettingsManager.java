@@ -159,6 +159,9 @@ public class SettingsManager {
             if (name.equals("defaultTheme") && value.equals("1")){
                 Main.PreferredTheme = Main.DARK;
             }
+            if (name.equals("defaultTheme") && value.equals("2")){
+                Main.PreferredTheme = Main.BARE_BONES;
+            }
         }
     }
 

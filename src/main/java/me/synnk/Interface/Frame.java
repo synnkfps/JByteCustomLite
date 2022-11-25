@@ -1,23 +1,19 @@
 package me.synnk.Interface;
 
-import com.formdev.flatlaf.FlatDarkLaf;
-import com.formdev.flatlaf.FlatLightLaf;
 import me.synnk.Main;
 import me.synnk.Managers.SettingsManager;
-import me.synnk.Utils.EnumerationUtils;
+import me.synnk.Managers.SwitchManager;
 import me.synnk.Utils.LogType;
 import me.synnk.Utils.Logger;
-import me.synnk.Utils.TreeManager;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Enumeration;
-import java.util.function.Consumer;
+import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 public class Frame extends JFrame {
@@ -26,14 +22,14 @@ public class Frame extends JFrame {
     public static JTextPane decompiled = new JTextPane();
     public static JLabel className = new JLabel("Current Class: ");
     public static ArrayList<String> files = new ArrayList<>();
+    public static DefaultMutableTreeNode root = new DefaultMutableTreeNode("Testing");
+    public static JTree dir = new JTree(root);
 
     public void addMainComponents() {
         // Jar Class Directory
         // Testing
-        DefaultMutableTreeNode style = new DefaultMutableTreeNode("testJar");
 
         // JTree
-        JTree dir = new JTree(style);
         dir.setBounds(10, 5, 270, height-90);
         JScrollPane qPane = new JScrollPane(dir, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -67,6 +63,14 @@ public class Frame extends JFrame {
 
         JRadioButtonMenuItem lightTheme = new JRadioButtonMenuItem("Light Theme");
         JRadioButtonMenuItem darkTheme = new JRadioButtonMenuItem("Dark Theme");
+        JRadioButtonMenuItem bareTheme = new JRadioButtonMenuItem("Bare Bones Theme");
+
+        ArrayList<JRadioButtonMenuItem> themesConstructor = new ArrayList<>();
+        themesConstructor.add(lightTheme);
+        themesConstructor.add(darkTheme);
+        themesConstructor.add(bareTheme);
+
+        SwitchManager.setItems(themesConstructor);
 
         switch (SettingsManager.getSetting("defaultTheme")) {
             case "0":
@@ -74,6 +78,9 @@ public class Frame extends JFrame {
                 break;
             case "1":
                 darkTheme.setSelected(true);
+                break;
+            case "2":
+                bareTheme.setSelected(true);
                 break;
             default:
                 Logger.Log(LogType.ERROR, "defaultTheme option seems invalid.");
@@ -93,29 +100,16 @@ public class Frame extends JFrame {
         file.add(exit);
 
         // Settings tab
-        settings.add(lightTheme);
-        settings.add(darkTheme);
+        themesConstructor.forEach(settings::add);
 
         // Actions
         open.addActionListener(e -> {
             JFileChooser chooser = new JFileChooser();
             int action = chooser.showOpenDialog(null);
             chooser.setDialogType(JFileChooser.OPEN_DIALOG);
+
             if (action == JFileChooser.APPROVE_OPTION) {
-                decompiled.setText("");
-                File selectedFile = chooser.getSelectedFile();
-                decompiled.setText(selectedFile.getName());
-                className.setText("Current Class: " + selectedFile.getName());
-                try {
-                    JarFile jar = new JarFile(new File(selectedFile.getAbsolutePath()));
-
-                    // ok ngl i liked it, keeping...
-                    System.out.println(jar.getComment());
-                    System.out.println("Manifest Attributes: "+jar.getManifest().getMainAttributes().values());
-                } catch (IOException w) {
-                    w.printStackTrace();
-                }
-
+                fileLoaded(chooser);
             }
 
         });
@@ -127,27 +121,13 @@ public class Frame extends JFrame {
         // Dumb theme switcher
         // WIP
         lightTheme.addActionListener(e -> {
-            if (darkTheme.isSelected()) {
-                darkTheme.setSelected(false);
-                lightTheme.setSelected(true);
-                SettingsManager.changeSetting("defaultTheme", "0");
-                showSettingChange();
-            }
-            if (!lightTheme.isSelected()) {
-                lightTheme.setSelected(true);
-            }
+            SwitchManager.switchTo(lightTheme, "0");
         });
-
         darkTheme.addActionListener(e -> {
-            if (lightTheme.isSelected()) {
-                lightTheme.setSelected(false);
-                darkTheme.setSelected(true);
-                SettingsManager.changeSetting("defaultTheme", "1");
-                showSettingChange();
-            }
-            if (!darkTheme.isSelected()) {
-                darkTheme.setSelected(true);
-            }
+            SwitchManager.switchTo(darkTheme, "1");
+        });
+        bareTheme.addActionListener(e -> {
+            SwitchManager.switchTo(bareTheme, "2");
         });
 
         setJMenuBar(stuff);
@@ -157,11 +137,7 @@ public class Frame extends JFrame {
         addMenuBar();
         addMainComponents();
 
-        URL iconURL = Main.class.getResource("/java.png");
-
-        assert iconURL != null;
-        ImageIcon icon = new ImageIcon(iconURL);
-        setIconImage(icon.getImage());
+        setBackground(Color.CYAN);
 
         setLayout(null); // ill change to gridbaglayout in future
         setTitle(Main.NAME + " " + Main.VERSION); // to do: show opened jar file
@@ -172,9 +148,33 @@ public class Frame extends JFrame {
         setVisible(true);
     }
 
+    public void fileLoaded(JFileChooser input) {
+        File selectedFile = input.getSelectedFile();
+
+        decompiled.setText(selectedFile.getName());
+        className.setText("Current Class: " + selectedFile.getName());
+
+        try (JarFile jar = new JarFile(new File(selectedFile.getAbsolutePath()))){
+            root.setUserObject(jar.getName());
+            Enumeration<JarEntry> entries = jar.entries();
+
+            // Jar entries reading (useless rn)
+            while (entries.hasMoreElements()) {
+                JarEntry entry = entries.nextElement();
+                if (entry.isDirectory() || entry.getName().equals(JarFile.MANIFEST_NAME)) {
+                    continue;
+                }
+            }
+
+            // ok ngl I liked it, keeping...
+            System.out.println(jar.getComment()!=null?jar.getComment():"No Comments");
+            System.out.println("Manifest Attributes: "+jar.getManifest().getMainAttributes().values());
+        } catch (IOException w) {
+            w.printStackTrace();
+        }
+    }
     public static void main(String[] args) {
         new Frame();
     }
-
     public static void showSettingChange(){JOptionPane.showMessageDialog(null, "The settings will take effect on the next restart!");}
 }

@@ -4,13 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="31ac594c-d762-4f00-a262-d5ee5e1a416d" name="Changes" comment="fixed more stuff about theme and added something on treemanager">
+    <list default="true" id="31ac594c-d762-4f00-a262-d5ee5e1a416d" name="Changes" comment="other stuff and jfilechooser, probably adding real jar reader soon...&#10;(also decompilers)">
+      <change afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Managers/SwitchManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Interface/Frame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Interface/Frame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Managers/SettingsManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Managers/SettingsManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Utils/EnumerationUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Utils/EnumerationUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Utils/TreeManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Utils/TreeManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Utils/TreeManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Managers/TreeManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,6 +48,12 @@
                 <item name="JByteCustomLite" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
                 <item name="build" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="JByteCustomLite" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="other" type="c8890929:TasksNode$1" />
               </path>
             </expand>
             <select />
@@ -99,6 +108,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="JByteCustomLite [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -120,9 +135,54 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
+    <configuration name="JByteCustomLite [jar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="jar" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="JByteCustomLite [shadowJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="shadowJar" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.test" />
+        <item itemvalue="Gradle.JByteCustomLite [jar]" />
         <item itemvalue="Gradle.JByteCustomLite [build]" />
+        <item itemvalue="Gradle.JByteCustomLite [shadowJar]" />
       </list>
     </recent_temporary>
   </component>
@@ -191,7 +251,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668907939028</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="other stuff and jfilechooser, probably adding real jar reader soon...&#10;(also decompilers)">
+      <created>1668914576766</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1668914576766</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -217,6 +284,7 @@
     <MESSAGE value="added changeSetting(key, new_value) and settings is now working." />
     <MESSAGE value="added Jar reading (WIP)" />
     <MESSAGE value="fixed more stuff about theme and added something on treemanager" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed more stuff about theme and added something on treemanager" />
+    <MESSAGE value="other stuff and jfilechooser, probably adding real jar reader soon...&#10;(also decompilers)" />
+    <option name="LAST_COMMIT_MESSAGE" value="other stuff and jfilechooser, probably adding real jar reader soon...&#10;(also decompilers)" />
   </component>
 </project>
