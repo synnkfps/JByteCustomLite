@@ -25,6 +25,10 @@ public class Frame extends JFrame {
     public static DefaultMutableTreeNode root = new DefaultMutableTreeNode("Testing");
     public static JTree dir = new JTree(root);
 
+    public static JRadioButtonMenuItem lightTheme = new JRadioButtonMenuItem("Light Theme");
+    public static JRadioButtonMenuItem darkTheme = new JRadioButtonMenuItem("Dark Theme");
+    public static JRadioButtonMenuItem bareTheme = new JRadioButtonMenuItem("Bare Bones Theme");
+
     public void addMainComponents() {
         // Jar Class Directory
         // Testing
@@ -60,31 +64,19 @@ public class Frame extends JFrame {
 
         JMenu file = new JMenu("File");
         JMenu settings = new JMenu("Settings");
-
-        JRadioButtonMenuItem lightTheme = new JRadioButtonMenuItem("Light Theme");
-        JRadioButtonMenuItem darkTheme = new JRadioButtonMenuItem("Dark Theme");
-        JRadioButtonMenuItem bareTheme = new JRadioButtonMenuItem("Bare Bones Theme");
+        JMenu misc = new JMenu("Misc");
 
         ArrayList<JRadioButtonMenuItem> themesConstructor = new ArrayList<>();
         themesConstructor.add(lightTheme);
         themesConstructor.add(darkTheme);
         themesConstructor.add(bareTheme);
 
-        SwitchManager.setItems(themesConstructor);
+        JMenuItem systemInfo = new JMenuItem("System Info");
+        JMenuItem about = new JMenuItem("About");
 
-        switch (SettingsManager.getSetting("defaultTheme")) {
-            case "0":
-                lightTheme.setSelected(true);
-                break;
-            case "1":
-                darkTheme.setSelected(true);
-                break;
-            case "2":
-                bareTheme.setSelected(true);
-                break;
-            default:
-                Logger.Log(LogType.ERROR, "defaultTheme option seems invalid.");
-        }
+        SwitchManager.setItems(themesConstructor);
+        // replacement to the switch case stuff
+        fetchNewTheme();
 
         JMenuItem open = new JMenuItem("Open Jar/Class");
         JMenuItem close = new JMenuItem("Close Jar");
@@ -93,11 +85,15 @@ public class Frame extends JFrame {
         // adding
         stuff.add(file);
         stuff.add(settings);
+        stuff.add(misc);
 
         // File tab
         file.add(open);
         file.add(close);
         file.add(exit);
+
+        misc.add(systemInfo);
+        misc.add(about);
 
         // Settings tab
         themesConstructor.forEach(settings::add);
@@ -116,6 +112,15 @@ public class Frame extends JFrame {
         exit.addActionListener(e -> {
             JOptionPane.showMessageDialog(null, "Thank you for using JByteCustom Lite!");
             dispose();
+        });
+
+        systemInfo.addActionListener(e -> {
+            String[] infos = {"OS Name: "+System.getProperty("os.name"), "OS Architeture: " + System.getProperty("os.arch"), "Java Version: " + System.getProperty("java.version"), "VM Name: " + System.getProperty("java.vm.name"), "VM Vendor: "+System.getProperty("java.vm.vendor"), "Java Home: "+System.getProperty("java.home")};
+            StringBuilder in = new StringBuilder();
+            for (String i: infos) {
+                in.append(i).append("\n");
+            }
+            JOptionPane.showMessageDialog(null, in);
         });
 
         // Dumb theme switcher
@@ -137,8 +142,7 @@ public class Frame extends JFrame {
         addMenuBar();
         addMainComponents();
 
-        setBackground(Color.CYAN);
-
+        setDefaultLookAndFeelDecorated(true);
         setLayout(null); // ill change to gridbaglayout in future
         setTitle(Main.NAME + " " + Main.VERSION); // to do: show opened jar file
         setLocation(200, 200);
@@ -166,7 +170,7 @@ public class Frame extends JFrame {
                 }
             }
 
-            // ok ngl I liked it, keeping...
+            // ok ngl I like it, keeping...
             System.out.println(jar.getComment()!=null?jar.getComment():"No Comments");
             System.out.println("Manifest Attributes: "+jar.getManifest().getMainAttributes().values());
         } catch (IOException w) {
@@ -177,4 +181,15 @@ public class Frame extends JFrame {
         new Frame();
     }
     public static void showSettingChange(){JOptionPane.showMessageDialog(null, "The settings will take effect on the next restart!");}
+    public static void fetchNewTheme() {
+        switch (SettingsManager.getSetting("defaultTheme")) {
+            case "0": lightTheme.setSelected(true);
+                break;
+            case "1": darkTheme.setSelected(true);
+                break;
+            case "2": bareTheme.setSelected(true);
+                break;
+            default: Logger.Log(LogType.ERROR, "defaultTheme option seems invalid.");
+        }
+    }
 }

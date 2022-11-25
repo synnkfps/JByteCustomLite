@@ -7,7 +7,7 @@ import me.synnk.Managers.SettingsManager;
 
 public class Main {
     public static String NAME = "JByteCustom Lite";
-    public static String VERSION = "0.8.5";
+    public static String VERSION = "0.8.6";
 
     public static Integer LIGHT = 0;
     public static Integer DARK = 1;
@@ -24,10 +24,7 @@ public class Main {
             FlatLightLaf.setup();
         } else if (PreferredTheme==DARK) {
             FlatDarkLaf.setup();
-        } else if (PreferredTheme==BARE_BONES) {
-
         }
-
         // Frame
         new Frame();
     }

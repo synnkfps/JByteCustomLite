@@ -1,1 +1,3 @@
 Main-Class: me.synnk.Main
+Created-By: SynnK
+Boot-Class-Path: me.synnk.Main

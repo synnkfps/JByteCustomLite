@@ -5,15 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="31ac594c-d762-4f00-a262-d5ee5e1a416d" name="Changes" comment="other stuff and jfilechooser, probably adding real jar reader soon...&#10;(also decompilers)">
-      <change afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Managers/SwitchManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Interface/Frame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Interface/Frame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Managers/SettingsManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Managers/SettingsManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Utils/TreeManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Managers/TreeManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.mf" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.mf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/jbclite.jbc" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/jbclite.jbc" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

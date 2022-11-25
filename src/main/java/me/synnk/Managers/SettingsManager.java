@@ -153,6 +153,7 @@ public class SettingsManager {
             if (name.equals("showWelcome") && value.equals("true")) {
                 JOptionPane.showMessageDialog(null, "Welcome to JByteCustom Lite!");
             }
+
             if (name.equals("defaultTheme") && value.equals("0")) {
                 Main.PreferredTheme = Main.LIGHT;
             }
