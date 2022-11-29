@@ -12,7 +12,8 @@ import java.util.Arrays;
 public class SettingsManager {
 
     // @TODO: dynamic path
-    public static String path = "C:\\Users\\SynnK\\IdeaProjects\\JByteCustomLite\\src\\main\\resources\\jbclite.jbc";
+    public static String path = System.getenv("user.home") + "\Documents\jbclite.jbc"
+    //public static String path = "C:\\Users\\SynnK\\IdeaProjects\\JByteCustomLite\\src\\main\\resources\\jbclite.jbc";
 
     public static ArrayList<String> readSettings() {
         ArrayList<String> result = new ArrayList<>();
