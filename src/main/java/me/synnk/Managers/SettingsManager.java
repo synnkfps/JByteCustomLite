@@ -12,13 +12,17 @@ import java.util.Arrays;
 public class SettingsManager {
 
     // @TODO: dynamic path
-    public static String path = System.getenv("user.home") + "\Documents\jbclite.jbc"
+    public static String path = System.getProperty("user.home") + "\\Documents\\jbclite.jbc";
     //public static String path = "C:\\Users\\SynnK\\IdeaProjects\\JByteCustomLite\\src\\main\\resources\\jbclite.jbc";
 
     public static ArrayList<String> readSettings() {
         ArrayList<String> result = new ArrayList<>();
         try {
-            FileReader f = new FileReader(path);
+            File file = new File(path);
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileReader f = new FileReader(file);
             StringBuilder sb = new StringBuilder();
             while (f.ready()) {
                 char c = (char) f.read();
@@ -38,6 +42,7 @@ public class SettingsManager {
 
         return result;
     }
+
 
     // WIP
     public static String getSetting(String toSearch)  {
@@ -77,7 +82,7 @@ public class SettingsManager {
                         stillValid = false;
                     }
                 // bruh handling
-                } else if (!splitted.contains(".")) {
+                } else {
                     try {
                         Integer.parseInt(splitted);
                         System.out.println("Value " + splitted + " is a integer.");
@@ -142,7 +147,7 @@ public class SettingsManager {
             }
             f.close();
         } catch (IOException e) {
-            System.out.println("Error occurred while changing the setting. Stracktrace: " + Arrays.toString(e.getStackTrace()));
+            System.out.println("Error occurred while changing the setting. Stacktrace: " + Arrays.toString(e.getStackTrace()));
         }
     }
 

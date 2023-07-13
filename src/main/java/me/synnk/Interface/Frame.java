@@ -1,16 +1,23 @@
 package me.synnk.Interface;
 
+import me.synnk.Loaders.FileLoader;
 import me.synnk.Main;
 import me.synnk.Managers.SettingsManager;
 import me.synnk.Managers.SwitchManager;
+import me.synnk.Renders.FileTreeRenderer;
 import me.synnk.Utils.LogType;
 import me.synnk.Utils.Logger;
 
 import javax.swing.*;
-import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.tree.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.jar.JarEntry;
@@ -34,24 +41,27 @@ public class Frame extends JFrame {
         // Testing
 
         // JTree
-        dir.setBounds(10, 5, 270, height-90);
+        dir.setBounds(10, 5, 270, height - 90);
         JScrollPane qPane = new JScrollPane(dir, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         add(qPane);
         // File Name
-        className.setBounds(260+5+20, 15, 400, 20);
+        className.setBounds(260 + 5 + 20, 15, 400, 20);
 
         // Decompiled class / method content
         decompiled.setAutoscrolls(true);
         decompiled.setText("decompiled class stuff will appear here.");
-        decompiled.setBounds(260+5+20, 5+30, width-315, (height-90)-30);
+        decompiled.setBounds(260 + 5 + 20, 5 + 30, width, (height - 90) - 30);
 
         // Decompilers
         String[] dec = {"CFR v0.152", "Procyon 1.0.0", "QuiltFlower", "FernFlower", "Jadx"};
         JComboBox<String> decompilers = new JComboBox<>(dec);
-        decompilers.setBounds(width-130, 10, 100, 20);
+        decompilers.setBounds(width - 130, 10, 100, 20);
 
         // add stuff
+        TreeCellRenderer CustomTreeCellRenderer = new FileTreeRenderer.CustomTreeCellRenderer(dir);
+        dir.setCellRenderer(CustomTreeCellRenderer);
+        registerFileClicking(); // for dir
         add(dir);
         add(decompiled);
         add(className);
@@ -101,21 +111,26 @@ public class Frame extends JFrame {
         // Actions
         open.addActionListener(e -> {
             JFileChooser chooser = new JFileChooser();
-            int action = chooser.showOpenDialog(null);
             chooser.setDialogType(JFileChooser.OPEN_DIALOG);
 
+            // Create a file filter for .jar and .class files
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("JAR and CLASS Files", "jar", "class");
+            chooser.setFileFilter(filter);
+
+            int action = chooser.showOpenDialog(null);
             if (action == JFileChooser.APPROVE_OPTION) {
                 fileLoaded(chooser);
             }
-
         });
+
+
         exit.addActionListener(e -> {
             JOptionPane.showMessageDialog(null, "Thank you for using JByteCustom Lite!");
             dispose();
         });
 
         systemInfo.addActionListener(e -> {
-            String[] infos = {"OS Name: "+System.getProperty("os.name"), "OS Architeture: " + System.getProperty("os.arch"), "Java Version: " + System.getProperty("java.version"), "VM Name: " + System.getProperty("java.vm.name"), "VM Vendor: "+System.getProperty("java.vm.vendor"), "Java Home: "+System.getProperty("java.home")};
+            String[] infos = {"OS Name: "+System.getProperty("os.name"), "OS Architecture: " + System.getProperty("os.arch"), "Java Version: " + System.getProperty("java.version"), "VM Name: " + System.getProperty("java.vm.name"), "VM Vendor: "+System.getProperty("java.vm.vendor"), "Java Home: "+System.getProperty("java.home")};
             StringBuilder in = new StringBuilder();
             for (String i: infos) {
                 in.append(i).append("\n");
@@ -158,25 +173,66 @@ public class Frame extends JFrame {
         decompiled.setText(selectedFile.getName());
         className.setText("Current Class: " + selectedFile.getName());
 
-        try (JarFile jar = new JarFile(new File(selectedFile.getAbsolutePath()))){
+        try (JarFile jar = new JarFile(new File(selectedFile.getAbsolutePath()))) {
             root.setUserObject(jar.getName());
             Enumeration<JarEntry> entries = jar.entries();
 
-            // Jar entries reading (useless rn)
+            DefaultTreeModel model = (DefaultTreeModel) dir.getModel();
+            DefaultMutableTreeNode rootNode = (DefaultMutableTreeNode) model.getRoot();
+            rootNode.removeAllChildren(); // Clear existing tree nodes
+
             while (entries.hasMoreElements()) {
                 JarEntry entry = entries.nextElement();
-                if (entry.isDirectory() || entry.getName().equals(JarFile.MANIFEST_NAME)) {
-                    continue;
+                String entryName = entry.getName();
+                String[] pathElements = entryName.split("/"); // Split entry name into path elements
+
+                DefaultMutableTreeNode currentNode = rootNode;
+                for (String pathElement : pathElements) {
+                    if (!pathElement.isEmpty()) {
+                        DefaultMutableTreeNode newNode = getChildNode(currentNode, pathElement);
+                        if (newNode == null) {
+                            newNode = new DefaultMutableTreeNode(pathElement);
+                            model.insertNodeInto(newNode, currentNode, currentNode.getChildCount());
+                        }
+                        currentNode = newNode;
+                    }
+                }
+
+                // Create corresponding file in cache folder
+                if (!entry.isDirectory()) {
+                    String cacheFilePath = "cache_folder" + File.separator + entryName;
+                    File cacheFile = new File(cacheFilePath);
+                    cacheFile.getParentFile().mkdirs(); // Create parent directories if they don't exist
+                    try (InputStream inputStream = jar.getInputStream(entry);
+                         FileOutputStream outputStream = new FileOutputStream(cacheFile)) {
+                        byte[] buffer = new byte[4096];
+                        int bytesRead;
+                        while ((bytesRead = inputStream.read(buffer)) != -1) {
+                            outputStream.write(buffer, 0, bytesRead);
+                        }
+                    }
                 }
             }
 
-            // ok ngl I like it, keeping...
-            System.out.println(jar.getComment()!=null?jar.getComment():"No Comments");
-            System.out.println("Manifest Attributes: "+jar.getManifest().getMainAttributes().values());
+            model.reload(); // Refresh the JTree
         } catch (IOException w) {
             w.printStackTrace();
         }
     }
+
+    private DefaultMutableTreeNode getChildNode(DefaultMutableTreeNode parent, String childName) {
+        int childCount = parent.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            DefaultMutableTreeNode childNode = (DefaultMutableTreeNode) parent.getChildAt(i);
+            if (childNode.getUserObject().equals(childName)) {
+                return childNode;
+            }
+        }
+        return null;
+    }
+
+
+
     public static void main(String[] args) {
         new Frame();
     }
@@ -191,5 +247,35 @@ public class Frame extends JFrame {
                 break;
             default: Logger.Log(LogType.ERROR, "defaultTheme option seems invalid.");
         }
+    }
+
+    public static void registerFileClicking() {
+        dir.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+                    TreePath selectedPath = dir.getPathForLocation(e.getX(), e.getY());
+                    if (selectedPath != null) {
+                        DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) selectedPath.getLastPathComponent();
+                        Object userObject = selectedNode.getUserObject();
+                        if (userObject instanceof String) {
+                            String filePath = "cache_folder" + File.separator + userObject;
+                            File selectedFile = new File(filePath);
+                            if (selectedFile.isFile()) {
+                                // Call your function here with the selectedFile as the argument
+                                handleFileDoubleClick(selectedFile);
+                            }
+                        }
+                    }
+
+            }
+        });
+    }
+
+    private static void handleFileDoubleClick(File file) {
+        // Handle the double-clicked file here
+        FileLoader.loadFile(file);
+        System.out.println("File Name: " + file.getName());
+        System.out.println("Double-clicked file: " + file.getAbsolutePath());
     }
 }

@@ -22,7 +22,7 @@ dependencies {
     include 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.20'
 }
 
-task shadowJar(type: Jar) {
+tasks.register('shadowJar', Jar) {
     classifier 'release'
     // set main class
     manifest {
