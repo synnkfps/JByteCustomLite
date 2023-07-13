@@ -10,6 +10,9 @@ import java.util.Objects;
 
 public class FileLoader {
 
+    /*
+    @TODO: Add something like an array or something like that so each opened file will have their own content on the decompiled text panel
+     */
     public static void loadFile(File file) {
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
