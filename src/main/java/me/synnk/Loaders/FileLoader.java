@@ -14,16 +14,23 @@ public class FileLoader {
     @TODO: Add something like an array or something like that so each opened file will have their own content on the decompiled text panel
      */
     public static void loadFile(File file) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if (!Objects.equals(file.getName().split("\\.")[1], "class")) {
-                    Frame.decompiled.setText(Frame.decompiled.getText() + line);
+        if (file.isFile()) { // Check if it is a file
+            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                StringBuilder fileContentBuilder = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    fileContentBuilder.append(line).append("\n");
                 }
+                String fileContent = fileContentBuilder.toString();
+
+                Frame.content.put(file.getPath(), fileContent);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } else {
+            System.out.println("Skipping folder: " + file.getPath());
         }
-        System.out.println(file + "|" + file.getName() + "|" + file.getAbsolutePath());
     }
+
+
 }

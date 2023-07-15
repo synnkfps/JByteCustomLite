@@ -1,5 +1,6 @@
 package me.synnk.Interface;
 
+import me.synnk.Interface.FrameRegisters;
 import me.synnk.Loaders.FileLoader;
 import me.synnk.Main;
 import me.synnk.Managers.SettingsManager;
@@ -20,38 +21,44 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+
+import static me.synnk.Interface.FrameRegisters.fetchNewTheme;
+import static me.synnk.Interface.FrameRegisters.registerFileClicking;
 
 public class Frame extends JFrame {
     public Integer width = 1400;
     public Integer height = 750;
     public static JTextPane decompiled = new JTextPane();
+    public static JScrollPane scrollPane = new JScrollPane(decompiled);
     public static JLabel className = new JLabel("Current Class: ");
     public static ArrayList<String> files = new ArrayList<>();
-    public static DefaultMutableTreeNode root = new DefaultMutableTreeNode("Testing");
+    public static DefaultMutableTreeNode root = new DefaultMutableTreeNode();
     public static JTree dir = new JTree(root);
 
     public static JRadioButtonMenuItem lightTheme = new JRadioButtonMenuItem("Light Theme");
     public static JRadioButtonMenuItem darkTheme = new JRadioButtonMenuItem("Dark Theme");
     public static JRadioButtonMenuItem bareTheme = new JRadioButtonMenuItem("Bare Bones Theme");
 
+    public static HashMap<String, String> content = new HashMap<>();
+
     public void addMainComponents() {
         // Jar Class Directory
         // Testing
 
         // JTree
-        dir.setBounds(10, 5, 270, height - 90);
-        JScrollPane qPane = new JScrollPane(dir, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        JScrollPane qPane = new JScrollPane(dir, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        qPane.setBounds(10, 5, 270, height - 90);
 
         add(qPane);
         // File Name
-        className.setBounds(260 + 5 + 20, 15, 400, 20);
+        className.setBounds(300, 15, 400, 20);
 
         // Decompiled class / method content
-        decompiled.setAutoscrolls(true);
         decompiled.setText("decompiled class stuff will appear here.");
-        decompiled.setBounds(260 + 5 + 20, 5 + 30, width, (height - 90) - 30);
+        scrollPane.setBounds(300, 35, width - 320, height - 125);
 
         // Decompilers
         String[] dec = {"CFR v0.152", "Procyon 1.0.0", "QuiltFlower", "FernFlower", "Jadx"};
@@ -59,59 +66,59 @@ public class Frame extends JFrame {
         decompilers.setBounds(width - 130, 10, 100, 20);
 
         // add stuff
-        TreeCellRenderer CustomTreeCellRenderer = new FileTreeRenderer.CustomTreeCellRenderer(dir);
-        dir.setCellRenderer(CustomTreeCellRenderer);
+        TreeCellRenderer customTreeCellRenderer = new FileTreeRenderer.CustomTreeCellRenderer(dir);
+        dir.setCellRenderer(customTreeCellRenderer);
         registerFileClicking(); // for dir
-        add(dir);
-        add(decompiled);
+        add(scrollPane);
         add(className);
         add(decompilers);
     }
 
     public void addMenuBar() {
         // Menu Bar
-        JMenuBar stuff = new JMenuBar();
+        JMenuBar menuBar = new JMenuBar();
 
-        JMenu file = new JMenu("File");
-        JMenu settings = new JMenu("Settings");
-        JMenu misc = new JMenu("Misc");
+        JMenu fileMenu = new JMenu("File");
+        JMenu settingsMenu = new JMenu("Settings");
+        JMenu miscMenu = new JMenu("Misc");
 
-        ArrayList<JRadioButtonMenuItem> themesConstructor = new ArrayList<>();
-        themesConstructor.add(lightTheme);
-        themesConstructor.add(darkTheme);
-        themesConstructor.add(bareTheme);
+        ArrayList<JRadioButtonMenuItem> themeItems = new ArrayList<>();
+        themeItems.add(lightTheme);
+        themeItems.add(darkTheme);
+        themeItems.add(bareTheme);
 
-        JMenuItem systemInfo = new JMenuItem("System Info");
-        JMenuItem about = new JMenuItem("About");
+        JMenuItem systemInfoItem = new JMenuItem("System Info");
+        JMenuItem aboutItem = new JMenuItem("About");
 
-        SwitchManager.setItems(themesConstructor);
+        SwitchManager.setItems(themeItems);
         // replacement to the switch case stuff
         fetchNewTheme();
 
-        JMenuItem open = new JMenuItem("Open Jar/Class");
-        JMenuItem close = new JMenuItem("Close Jar");
-        JMenuItem exit = new JMenuItem("Exit");
+        JMenuItem openItem = new JMenuItem("Open Jar/Class");
+        JMenuItem closeItem = new JMenuItem("Close Jar");
+        JMenuItem exitItem = new JMenuItem("Exit");
 
         // adding
-        stuff.add(file);
-        stuff.add(settings);
-        stuff.add(misc);
+        menuBar.add(fileMenu);
+        menuBar.add(settingsMenu);
+        menuBar.add(miscMenu);
 
-        // File tab
-        file.add(open);
-        file.add(close);
-        file.add(exit);
+        // File menu
+        fileMenu.add(openItem);
+        fileMenu.add(closeItem);
+        fileMenu.add(exitItem);
 
-        misc.add(systemInfo);
-        misc.add(about);
+        miscMenu.add(systemInfoItem);
+        miscMenu.add(aboutItem);
 
-        // Settings tab
-        themesConstructor.forEach(settings::add);
+        // Settings menu
+        themeItems.forEach(settingsMenu::add);
 
         // Actions
-        open.addActionListener(e -> {
+        openItem.addActionListener(e -> {
             JFileChooser chooser = new JFileChooser();
             chooser.setDialogType(JFileChooser.OPEN_DIALOG);
+            chooser.setCurrentDirectory(new File(System.getProperty("user.home") + File.separator + "Desktop"));
 
             // Create a file filter for .jar and .class files
             FileNameExtensionFilter filter = new FileNameExtensionFilter("JAR and CLASS Files", "jar", "class");
@@ -119,20 +126,19 @@ public class Frame extends JFrame {
 
             int action = chooser.showOpenDialog(null);
             if (action == JFileChooser.APPROVE_OPTION) {
-                fileLoaded(chooser);
+                FrameRegisters.fileLoaded(chooser);
             }
         });
 
-
-        exit.addActionListener(e -> {
+        exitItem.addActionListener(e -> {
             JOptionPane.showMessageDialog(null, "Thank you for using JByteCustom Lite!");
             dispose();
         });
 
-        systemInfo.addActionListener(e -> {
-            String[] infos = {"OS Name: "+System.getProperty("os.name"), "OS Architecture: " + System.getProperty("os.arch"), "Java Version: " + System.getProperty("java.version"), "VM Name: " + System.getProperty("java.vm.name"), "VM Vendor: "+System.getProperty("java.vm.vendor"), "Java Home: "+System.getProperty("java.home")};
+        systemInfoItem.addActionListener(e -> {
+            String[] infos = {"OS Name: " + System.getProperty("os.name"), "OS Architecture: " + System.getProperty("os.arch"), "Java Version: " + System.getProperty("java.version"), "VM Name: " + System.getProperty("java.vm.name"), "VM Vendor: " + System.getProperty("java.vm.vendor"), "Java Home: " + System.getProperty("java.home")};
             StringBuilder in = new StringBuilder();
-            for (String i: infos) {
+            for (String i : infos) {
                 in.append(i).append("\n");
             }
             JOptionPane.showMessageDialog(null, in);
@@ -150,7 +156,7 @@ public class Frame extends JFrame {
             SwitchManager.switchTo(bareTheme, "2");
         });
 
-        setJMenuBar(stuff);
+        setJMenuBar(menuBar);
     }
 
     public Frame() {
@@ -167,115 +173,13 @@ public class Frame extends JFrame {
         setVisible(true);
     }
 
-    public void fileLoaded(JFileChooser input) {
-        File selectedFile = input.getSelectedFile();
-
-        decompiled.setText(selectedFile.getName());
-        className.setText("Current Class: " + selectedFile.getName());
-
-        try (JarFile jar = new JarFile(new File(selectedFile.getAbsolutePath()))) {
-            root.setUserObject(jar.getName());
-            Enumeration<JarEntry> entries = jar.entries();
-
-            DefaultTreeModel model = (DefaultTreeModel) dir.getModel();
-            DefaultMutableTreeNode rootNode = (DefaultMutableTreeNode) model.getRoot();
-            rootNode.removeAllChildren(); // Clear existing tree nodes
-
-            while (entries.hasMoreElements()) {
-                JarEntry entry = entries.nextElement();
-                String entryName = entry.getName();
-                String[] pathElements = entryName.split("/"); // Split entry name into path elements
-
-                DefaultMutableTreeNode currentNode = rootNode;
-                for (String pathElement : pathElements) {
-                    if (!pathElement.isEmpty()) {
-                        DefaultMutableTreeNode newNode = getChildNode(currentNode, pathElement);
-                        if (newNode == null) {
-                            newNode = new DefaultMutableTreeNode(pathElement);
-                            model.insertNodeInto(newNode, currentNode, currentNode.getChildCount());
-                        }
-                        currentNode = newNode;
-                    }
-                }
-
-                // Create corresponding file in cache folder
-                if (!entry.isDirectory()) {
-                    String cacheFilePath = "cache_folder" + File.separator + entryName;
-                    File cacheFile = new File(cacheFilePath);
-                    cacheFile.getParentFile().mkdirs(); // Create parent directories if they don't exist
-                    try (InputStream inputStream = jar.getInputStream(entry);
-                         FileOutputStream outputStream = new FileOutputStream(cacheFile)) {
-                        byte[] buffer = new byte[4096];
-                        int bytesRead;
-                        while ((bytesRead = inputStream.read(buffer)) != -1) {
-                            outputStream.write(buffer, 0, bytesRead);
-                        }
-                    }
-                }
-            }
-
-            model.reload(); // Refresh the JTree
-        } catch (IOException w) {
-            w.printStackTrace();
-        }
-    }
-
-    private DefaultMutableTreeNode getChildNode(DefaultMutableTreeNode parent, String childName) {
-        int childCount = parent.getChildCount();
-        for (int i = 0; i < childCount; i++) {
-            DefaultMutableTreeNode childNode = (DefaultMutableTreeNode) parent.getChildAt(i);
-            if (childNode.getUserObject().equals(childName)) {
-                return childNode;
-            }
-        }
-        return null;
-    }
-
-
-
     public static void main(String[] args) {
-        new Frame();
-    }
-    public static void showSettingChange(){JOptionPane.showMessageDialog(null, "The settings will take effect on the next restart!");}
-    public static void fetchNewTheme() {
-        switch (SettingsManager.getSetting("defaultTheme")) {
-            case "0": lightTheme.setSelected(true);
-                break;
-            case "1": darkTheme.setSelected(true);
-                break;
-            case "2": bareTheme.setSelected(true);
-                break;
-            default: Logger.Log(LogType.ERROR, "defaultTheme option seems invalid.");
-        }
-    }
-
-    public static void registerFileClicking() {
-        dir.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-                    TreePath selectedPath = dir.getPathForLocation(e.getX(), e.getY());
-                    if (selectedPath != null) {
-                        DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) selectedPath.getLastPathComponent();
-                        Object userObject = selectedNode.getUserObject();
-                        if (userObject instanceof String) {
-                            String filePath = "cache_folder" + File.separator + userObject;
-                            File selectedFile = new File(filePath);
-                            if (selectedFile.isFile()) {
-                                // Call your function here with the selectedFile as the argument
-                                handleFileDoubleClick(selectedFile);
-                            }
-                        }
-                    }
-
-            }
+        SwingUtilities.invokeLater(() -> {
+            new Frame();
         });
     }
 
-    private static void handleFileDoubleClick(File file) {
-        // Handle the double-clicked file here
-        FileLoader.loadFile(file);
-        System.out.println("File Name: " + file.getName());
-        System.out.println("Double-clicked file: " + file.getAbsolutePath());
+    public static void showSettingChange() {
+        JOptionPane.showMessageDialog(null, "The settings will take effect on the next restart!");
     }
 }

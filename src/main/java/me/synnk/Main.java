@@ -5,9 +5,11 @@ import com.formdev.flatlaf.FlatLightLaf;
 import me.synnk.Interface.Frame;
 import me.synnk.Managers.SettingsManager;
 
+import java.util.Objects;
+
 public class Main {
     public static String NAME = "JByteCustom Lite";
-    public static String VERSION = "0.8.6";
+    public static String VERSION = "0.8.9";
 
     public static Integer LIGHT = 0;
     public static Integer DARK = 1;
@@ -19,10 +21,11 @@ public class Main {
         // Initialize Settings
         SettingsManager.initSettings();
         SettingsManager.load();
+        SettingsManager.clearCache();
 
-        if (PreferredTheme==LIGHT) {
+        if (Objects.equals(PreferredTheme, LIGHT)) {
             FlatLightLaf.setup();
-        } else if (PreferredTheme==DARK) {
+        } else if (Objects.equals(PreferredTheme, DARK)) {
             FlatDarkLaf.setup();
         }
         // Frame

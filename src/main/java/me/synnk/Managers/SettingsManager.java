@@ -6,14 +6,29 @@ import me.synnk.Utils.Logger;
 
 import javax.swing.*;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.stream.Stream;
 
 public class SettingsManager {
 
     // @TODO: dynamic path
     public static String path = System.getProperty("user.home") + "\\Documents\\jbclite.jbc";
     //public static String path = "C:\\Users\\SynnK\\IdeaProjects\\JByteCustomLite\\src\\main\\resources\\jbclite.jbc";
+
+    public static void clearCache() {
+        File file = new File("cache_folder" + File.separator);
+        try (Stream<Path> pathStream = Files.walk(file.toPath())) {
+            pathStream.sorted(Comparator.reverseOrder())
+                    .map(Path::toFile)
+                    .forEach(File::delete);
+        } catch (IOException e) {
+            System.out.println("Cache Folder doesnt exists, passing");
+        }
+    }
 
     public static ArrayList<String> readSettings() {
         ArrayList<String> result = new ArrayList<>();
@@ -129,11 +144,7 @@ public class SettingsManager {
             String name = setting.split(":")[0];
             String value = setting.split(":")[1];
 
-            if (name.equalsIgnoreCase(setting_name)) {
-                tempList.add(name+":"+new_value);
-            } else {
-                tempList.add(name + ":" + value);
-            }
+            tempList.add(name+":"+(name.equalsIgnoreCase(setting_name)?new_value:value));
         }
 
         try {
@@ -160,14 +171,18 @@ public class SettingsManager {
                 JOptionPane.showMessageDialog(null, "Welcome to JByteCustom Lite!");
             }
 
-            if (name.equals("defaultTheme") && value.equals("0")) {
-                Main.PreferredTheme = Main.LIGHT;
-            }
-            if (name.equals("defaultTheme") && value.equals("1")){
-                Main.PreferredTheme = Main.DARK;
-            }
-            if (name.equals("defaultTheme") && value.equals("2")){
-                Main.PreferredTheme = Main.BARE_BONES;
+            if (name.equals("defaultTheme")) {
+                switch (value) {
+                    case "0":
+                        Main.PreferredTheme = Main.LIGHT;
+                        break;
+                    case "1":
+                        Main.PreferredTheme = Main.DARK;
+                        break;
+                    case "2":
+                        Main.PreferredTheme = Main.BARE_BONES;
+                        break;
+                }
             }
         }
     }
