@@ -4,12 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="31ac594c-d762-4f00-a262-d5ee5e1a416d" name="Changes" comment="improved file reading, improved gui compatibility, and other stuff">
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Loaders/TransferHandle.java" afterDir="false" />
+    <list default="true" id="31ac594c-d762-4f00-a262-d5ee5e1a416d" name="Changes" comment="added drag and drop support and changed file loading system">
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Decompiler/Decompile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Loaders/ReadBytecode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Interface/Frame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Interface/Frame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Interface/FrameRegisters.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Interface/FrameRegisters.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Loaders/FileLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Loaders/FileLoader.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -331,7 +334,15 @@
       <option name="project" value="LOCAL" />
       <updated>1689382539713</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="added drag and drop support and changed file loading system">
+      <option name="closed" value="true" />
+      <created>1689383589881</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1689383589881</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -363,7 +374,8 @@
     <MESSAGE value="Added JTree reading support, added jar and class filter to the file chooser, added file cache,now i'm developing the dong dong thingy to read the files" />
     <MESSAGE value="e" />
     <MESSAGE value="improved file reading, improved gui compatibility, and other stuff" />
-    <option name="LAST_COMMIT_MESSAGE" value="improved file reading, improved gui compatibility, and other stuff" />
+    <MESSAGE value="added drag and drop support and changed file loading system" />
+    <option name="LAST_COMMIT_MESSAGE" value="added drag and drop support and changed file loading system" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -1,9 +1,14 @@
 package me.synnk.Interface;
 
-import me.synnk.Loaders.FileLoader;
+import me.synnk.Decompiler.Decompile;
 import me.synnk.Managers.SettingsManager;
 import me.synnk.Utils.LogType;
 import me.synnk.Utils.Logger;
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.tree.*;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -13,7 +18,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -109,28 +116,147 @@ public class FrameRegisters {
         });
     }
 
-
     private static void handleFileDoubleClick(File file) {
         // Handle the double-clicked file here
 
-        // might get changed in future
-        if (!content.containsKey(file.getPath())) {
-            FileLoader.loadFile(file);
-            decompiled.setText(content.get(file.getPath()));
-            //System.out.println("File Name: " + file.getName());
-            //System.out.println("Double-clicked file: " + file.getAbsolutePath());
+        if (!Frame.content.containsKey(file.getPath())) {
+            if ("class".equals(getFileExtension(file))) {
+                try {
+                    String decompiledCode = readBytecode(file);
+                    decompiled.setText(decompiledCode);
+                    Frame.content.put(file.getPath(), decompiledCode);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                loadTextFile(file);
+            }
+        } else {
+            decompiled.setText(Frame.content.get(file.getPath()));
+        }
+    }
+
+    private static String getFileExtension(File file) {
+        String fileName = file.getName();
+        int dotIndex = fileName.lastIndexOf('.');
+        if (dotIndex > 0 && dotIndex < fileName.length() - 1) {
+            return fileName.substring(dotIndex + 1).toLowerCase();
+        }
+        return "";
+    }
+
+    public static String readBytecode(File file) throws IOException {
+        try (InputStream inputStream = new FileInputStream(file)) {
+            ClassReader classReader = new ClassReader(inputStream);
+            ClassNode classNode = new ClassNode(Opcodes.ASM9);
+            classReader.accept(classNode, ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES);
+
+            StringBuilder bytecodeBuilder = new StringBuilder();
+
+            // Visit class information
+            bytecodeBuilder.append("Class: ").append(classNode.name).append("\n");
+            bytecodeBuilder.append("Superclass: ").append(classNode.superName).append("\n");
+            bytecodeBuilder.append("Access: ").append(classNode.access).append("\n\n");
+
+            // Visit fields
+            bytecodeBuilder.append("Fields:").append("\n");
+            for (FieldNode field : classNode.fields) {
+                bytecodeBuilder.append(fieldToString(field)).append("\n");
+            }
+            bytecodeBuilder.append("\n");
+
+            // Visit methods
+            bytecodeBuilder.append("Methods:").append("\n");
+            for (MethodNode method : classNode.methods) {
+                bytecodeBuilder.append(methodToString(method)).append("\n");
+            }
+
+            return bytecodeBuilder.toString();
+        }
+    }
+
+    private static String fieldToString(FieldNode fieldNode) {
+        String access = getAccessModifier(fieldNode.access);
+        return access + " " + fieldNode.name + ": " + fieldNode.desc;
+    }
+
+    private static String methodToString(MethodNode methodNode) {
+        String access = getAccessModifier(methodNode.access);
+        return access + " " + methodNode.name + methodNode.desc;
+    }
+
+    private static String getAccessModifier(int access) {
+        StringBuilder modifier = new StringBuilder();
+
+        if ((access & Opcodes.ACC_PUBLIC) != 0) {
+            modifier.append("public ");
+        } else if ((access & Opcodes.ACC_PROTECTED) != 0) {
+            modifier.append("protected ");
+        } else if ((access & Opcodes.ACC_PRIVATE) != 0) {
+            modifier.append("private ");
+        } else {
+            modifier.append("package-private ");
+        }
+
+        if ((access & Opcodes.ACC_STATIC) != 0) {
+            modifier.append("static ");
+        }
+
+        if ((access & Opcodes.ACC_FINAL) != 0) {
+            modifier.append("final ");
+        }
+
+        if ((access & Opcodes.ACC_ABSTRACT) != 0) {
+            modifier.append("abstract ");
+        }
+
+        if ((access & Opcodes.ACC_SYNCHRONIZED) != 0) {
+            modifier.append("synchronized ");
+        }
+
+        if ((access & Opcodes.ACC_NATIVE) != 0) {
+            modifier.append("native ");
+        }
+
+        if ((access & Opcodes.ACC_STRICT) != 0) {
+            modifier.append("strictfp ");
+        }
+
+        return modifier.toString().trim();
+    }
+
+    private static void loadTextFile(File file) {
+        if (file.isFile()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                StringBuilder fileContentBuilder = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    fileContentBuilder.append(line).append("\n");
+                }
+                String fileContent = fileContentBuilder.toString();
+                Frame.content.put(file.getPath(), fileContent);
+                decompiled.setText(fileContent);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("Skipping folder: " + file.getPath());
         }
     }
 
     public static void fetchNewTheme() {
         switch (SettingsManager.getSetting("defaultTheme")) {
-            case "0": lightTheme.setSelected(true);
+            case "0":
+                Frame.lightTheme.setSelected(true);
                 break;
-            case "1": darkTheme.setSelected(true);
+            case "1":
+                Frame.darkTheme.setSelected(true);
                 break;
-            case "2": bareTheme.setSelected(true);
+            case "2":
+                Frame.bareTheme.setSelected(true);
                 break;
-            default: Logger.Log(LogType.ERROR, "defaultTheme option seems invalid.");
+            default:
+                Logger.Log(LogType.ERROR, "defaultTheme option seems invalid.");
         }
     }
 }

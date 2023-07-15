@@ -1,6 +1,6 @@
 package me.synnk.Interface;
 
-import me.synnk.Interface.FrameRegisters;
+import me.synnk.Decompiler.Decompile;
 import me.synnk.Loaders.FileLoader;
 import me.synnk.Loaders.TransferHandle;
 import me.synnk.Main;
@@ -9,6 +9,11 @@ import me.synnk.Managers.SwitchManager;
 import me.synnk.Renders.FileTreeRenderer;
 import me.synnk.Utils.LogType;
 import me.synnk.Utils.Logger;
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.tree.*;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -16,17 +21,11 @@ import javax.swing.tree.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
+import java.io.*;
+import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-import static me.synnk.Interface.FrameRegisters.fetchNewTheme;
 import static me.synnk.Interface.FrameRegisters.registerFileClicking;
 
 public class Frame extends JFrame {
@@ -94,7 +93,7 @@ public class Frame extends JFrame {
 
         SwitchManager.setItems(themeItems);
         // replacement to the switch case stuff
-        fetchNewTheme();
+
 
         JMenuItem openItem = new JMenuItem("Open Jar/Class");
         JMenuItem closeItem = new JMenuItem("Close Jar");
@@ -166,22 +165,15 @@ public class Frame extends JFrame {
         addMainComponents();
 
         setDefaultLookAndFeelDecorated(true);
-        setLayout(null); // ill change to gridbaglayout in future
-        setTitle(Main.NAME + " " + Main.VERSION); // to do: show opened jar file
-        setLocation(200, 200);
-        setResizable(false);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setLayout(null); // We are going to use bounds
+
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(width, height);
+        setTitle(Main.NAME + " " + Main.VERSION);
         setVisible(true);
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            new Frame();
-        });
-    }
-
     public static void showSettingChange() {
-        JOptionPane.showMessageDialog(null, "The settings will take effect on the next restart!");
+        JOptionPane.showMessageDialog(null, "Please restart the application for the changes to take effect.");
     }
 }
