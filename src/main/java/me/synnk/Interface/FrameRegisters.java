@@ -22,8 +22,7 @@ import static me.synnk.Interface.Frame.*;
 public class FrameRegisters {
     private static final JTree dir = Frame.dir;
 
-    public static void fileLoaded(JFileChooser input) {
-        File selectedFile = input.getSelectedFile();
+    public static void fileLoaded(File selectedFile) {
 
         decompiled.setText(selectedFile.getName());
         className.setText("Current Class: " + selectedFile.getName());

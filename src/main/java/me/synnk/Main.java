@@ -9,7 +9,7 @@ import java.util.Objects;
 
 public class Main {
     public static String NAME = "JByteCustom Lite";
-    public static String VERSION = "0.8.9";
+    public static String VERSION = "0.9.0";
 
     public static Integer LIGHT = 0;
     public static Integer DARK = 1;

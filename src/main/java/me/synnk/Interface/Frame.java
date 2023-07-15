@@ -2,6 +2,7 @@ package me.synnk.Interface;
 
 import me.synnk.Interface.FrameRegisters;
 import me.synnk.Loaders.FileLoader;
+import me.synnk.Loaders.TransferHandle;
 import me.synnk.Main;
 import me.synnk.Managers.SettingsManager;
 import me.synnk.Managers.SwitchManager;
@@ -35,7 +36,7 @@ public class Frame extends JFrame {
     public static JScrollPane scrollPane = new JScrollPane(decompiled);
     public static JLabel className = new JLabel("Current Class: ");
     public static ArrayList<String> files = new ArrayList<>();
-    public static DefaultMutableTreeNode root = new DefaultMutableTreeNode();
+    public static DefaultMutableTreeNode root = new DefaultMutableTreeNode("Drag and drop stuff here!");
     public static JTree dir = new JTree(root);
 
     public static JRadioButtonMenuItem lightTheme = new JRadioButtonMenuItem("Light Theme");
@@ -68,6 +69,7 @@ public class Frame extends JFrame {
         // add stuff
         TreeCellRenderer customTreeCellRenderer = new FileTreeRenderer.CustomTreeCellRenderer(dir);
         dir.setCellRenderer(customTreeCellRenderer);
+        dir.setTransferHandler(new TransferHandle());
         registerFileClicking(); // for dir
         add(scrollPane);
         add(className);
@@ -126,7 +128,7 @@ public class Frame extends JFrame {
 
             int action = chooser.showOpenDialog(null);
             if (action == JFileChooser.APPROVE_OPTION) {
-                FrameRegisters.fileLoaded(chooser);
+                FrameRegisters.fileLoaded(new File(chooser.getSelectedFile().getPath()));
             }
         });
 
