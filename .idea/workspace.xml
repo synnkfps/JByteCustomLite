@@ -4,15 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="31ac594c-d762-4f00-a262-d5ee5e1a416d" name="Changes" comment="added drag and drop support and changed file loading system">
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Decompiler/Decompile.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Loaders/ReadBytecode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="31ac594c-d762-4f00-a262-d5ee5e1a416d" name="Changes" comment="added ASM support">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Interface/Frame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Interface/Frame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Interface/FrameRegisters.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Interface/FrameRegisters.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Loaders/FileLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Loaders/FileLoader.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -342,7 +337,15 @@
       <option name="project" value="LOCAL" />
       <updated>1689383589881</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="added ASM support">
+      <option name="closed" value="true" />
+      <created>1689432461500</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1689432461501</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -375,7 +378,8 @@
     <MESSAGE value="e" />
     <MESSAGE value="improved file reading, improved gui compatibility, and other stuff" />
     <MESSAGE value="added drag and drop support and changed file loading system" />
-    <option name="LAST_COMMIT_MESSAGE" value="added drag and drop support and changed file loading system" />
+    <MESSAGE value="added ASM support" />
+    <option name="LAST_COMMIT_MESSAGE" value="added ASM support" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

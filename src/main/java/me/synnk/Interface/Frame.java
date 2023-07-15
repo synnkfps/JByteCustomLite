@@ -9,29 +9,22 @@ import me.synnk.Managers.SwitchManager;
 import me.synnk.Renders.FileTreeRenderer;
 import me.synnk.Utils.LogType;
 import me.synnk.Utils.Logger;
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.tree.*;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-import static me.synnk.Interface.FrameRegisters.registerFileClicking;
-
 public class Frame extends JFrame {
     public Integer width = 1400;
     public Integer height = 750;
-    public static JTextPane decompiled = new JTextPane();
+    public static JTextArea decompiled = new JTextArea();
     public static JScrollPane scrollPane = new JScrollPane(decompiled);
     public static JLabel className = new JLabel("Current Class: ");
     public static ArrayList<String> files = new ArrayList<>();
@@ -69,7 +62,7 @@ public class Frame extends JFrame {
         TreeCellRenderer customTreeCellRenderer = new FileTreeRenderer.CustomTreeCellRenderer(dir);
         dir.setCellRenderer(customTreeCellRenderer);
         dir.setTransferHandler(new TransferHandle());
-        registerFileClicking(); // for dir
+        FrameRegisters.registerFileClicking(); // for dir
         add(scrollPane);
         add(className);
         add(decompilers);
@@ -89,14 +82,28 @@ public class Frame extends JFrame {
         themeItems.add(bareTheme);
 
         JMenuItem systemInfoItem = new JMenuItem("System Info");
+        JMenu helpMenu = new JMenu("Help");
+
         JMenuItem aboutItem = new JMenuItem("About");
+        aboutItem.addActionListener(e -> JOptionPane.showMessageDialog(Frame.this,
+                "JByteCustom Lite\nVersion 1.0\n\nA lightweight Java bytecode viewer and decompiler.",
+                "About", JOptionPane.INFORMATION_MESSAGE));
+        helpMenu.add(aboutItem);
+        //JMenuItem aboutItem = new JMenuItem("About");
 
         SwitchManager.setItems(themeItems);
         // replacement to the switch case stuff
 
 
         JMenuItem openItem = new JMenuItem("Open Jar/Class");
-        JMenuItem closeItem = new JMenuItem("Close Jar");
+        JMenuItem closeJar = new JMenuItem("Close JAR");
+        closeJar.addActionListener(e -> {
+            SettingsManager.clearCache();
+            Frame.content.clear();
+            ((DefaultTreeModel) dir.getModel()).setRoot(new DefaultMutableTreeNode());
+            decompiled.setText("");
+            className.setText("");
+        });
         JMenuItem exitItem = new JMenuItem("Exit");
 
         // adding
@@ -106,7 +113,7 @@ public class Frame extends JFrame {
 
         // File menu
         fileMenu.add(openItem);
-        fileMenu.add(closeItem);
+        fileMenu.add(closeJar);
         fileMenu.add(exitItem);
 
         miscMenu.add(systemInfoItem);

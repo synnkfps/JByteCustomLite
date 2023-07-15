@@ -116,6 +116,7 @@ public class FrameRegisters {
         });
     }
 
+
     private static void handleFileDoubleClick(File file) {
         // Handle the double-clicked file here
 
