@@ -4,29 +4,24 @@ import me.synnk.Interface.Frame;
 
 import javax.swing.*;
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class SwitchManager {
-    private static ArrayList<JRadioButtonMenuItem> items = new ArrayList<>();
+    private static ArrayList<JMenuItem> items = new ArrayList<>();
 
-    public static void setItems(ArrayList<JRadioButtonMenuItem> newItems) {
+    public static void setItems(ArrayList<JMenuItem> newItems) {
         items = newItems;
     }
 
-    public static void switchTo(JRadioButtonMenuItem item, String settingIndex) {
-        System.out.println("Called switchTo function with parameters: " + item.getText() + " " + settingIndex);
-        System.out.println(item.isSelected());
-        if (item.isSelected()) {
-            for (JRadioButtonMenuItem i : items) {
-                if (i.getText().equals(item.getText())) {
-                    System.out.println(i.getText());
+    public static void addSwitchHook(JMenuItem item) {
+        item.addActionListener(e -> {
+            for (JMenuItem i: items) {
+                if (i.getText().equalsIgnoreCase(item.getText())) {
                     i.setSelected(true);
-                    SettingsManager.changeSetting("defaultTheme", settingIndex);
+
+                    SettingsManager.changeSetting("defaultTheme", String.valueOf(items.indexOf(i)));
                     Frame.showSettingChange();
-                } else {
-                    i.setSelected(false);
                 }
             }
-        }
+        });
     }
 }

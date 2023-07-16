@@ -26,7 +26,7 @@ public class SettingsManager {
                     .map(Path::toFile)
                     .forEach(File::delete);
         } catch (IOException e) {
-            System.out.println("Cache Folder doesnt exists, passing");
+            System.out.println("Cache Folder doesn't exists, passing");
         }
     }
 
@@ -77,40 +77,6 @@ public class SettingsManager {
         boolean hasExtras = false;
         for (String i: readSettings()) {
             String splitted = i.split(":")[1].toLowerCase(); // cuz :[0] will be the setting name
-
-            if (splitted.equals("true") || splitted.equals("false")) {
-                System.out.println("Value " + splitted + " is a boolean.");
-                stillValid = true;
-                hasExtras = true;
-            } else if (splitted.charAt(0)=='\'' && splitted.charAt(splitted.length()-1)=='\'') {
-                System.out.println("Value " + splitted + " is a string");
-                stillValid = true;
-                hasExtras = true;
-            } else {
-                if (splitted.contains(".")) {
-                    try {
-                        Float.parseFloat(splitted);
-                        System.out.println("Value " + splitted + " is a float/double.");
-                        stillValid = true;
-                        hasExtras = true;
-                    } catch (Exception e) {
-                        stillValid = false;
-                    }
-                // bruh handling
-                } else {
-                    try {
-                        Integer.parseInt(splitted);
-                        System.out.println("Value " + splitted + " is a integer.");
-                        stillValid = true;
-                        hasExtras = true;
-                    } catch (Exception e) {
-                        stillValid = false;
-                    }
-                }
-                if (!stillValid) {
-                    System.out.println("Value " + splitted + " is unknown.");
-                }
-            }
         }
     }
 
@@ -134,7 +100,7 @@ public class SettingsManager {
             assert fr != null;
             fr.close();
         } catch (Exception ignored) {
-
+            // empty lol
         }
     }
 
@@ -187,6 +153,9 @@ public class SettingsManager {
         }
     }
 
+    /*
+    @TODO: If some setting doesn't exist, append it using a default value (with the append(setting_name, value) function)
+     */
     public static void initSettings() {
         Logger.Log(LogType.INFO, "Settings Manager Initializing...");
         // changeSetting("showWelcome", "false");
@@ -194,6 +163,6 @@ public class SettingsManager {
         for (String setting: readSettings()) {
             Logger.Log(LogType.INFO, "Setting initialized > " + setting);
         }
-        verifySettings();
+        // verifySettings();
     }
 }

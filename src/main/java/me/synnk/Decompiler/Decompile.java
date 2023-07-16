@@ -4,6 +4,7 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
+import org.benf.cfr.reader.api.CfrDriver;
 
 import java.io.FileInputStream;
 import java.io.IOException;

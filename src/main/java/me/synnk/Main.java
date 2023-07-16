@@ -9,7 +9,7 @@ import java.util.Objects;
 
 public class Main {
     public static String NAME = "JByteCustom Lite";
-    public static String VERSION = "0.9.0";
+    public static String VERSION = "0.9.2";
 
     public static Integer LIGHT = 0;
     public static Integer DARK = 1;
@@ -18,6 +18,7 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("Hello world!");
+
         // Initialize Settings
         SettingsManager.initSettings();
         SettingsManager.load();

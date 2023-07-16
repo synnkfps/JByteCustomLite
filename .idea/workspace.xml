@@ -4,10 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="31ac594c-d762-4f00-a262-d5ee5e1a416d" name="Changes" comment="added ASM support">
+    <list default="true" id="31ac594c-d762-4f00-a262-d5ee5e1a416d" name="Changes" comment="stable version">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Decompiler/Decompile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Decompiler/Decompile.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Interface/Frame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Interface/Frame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Interface/FrameRegisters.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Interface/FrameRegisters.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Loaders/FileLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Loaders/FileLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Managers/SettingsManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Managers/SettingsManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Managers/SwitchManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Managers/SwitchManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -113,7 +118,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="JByteCustomLite [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="JByteCustomLite [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -124,7 +129,7 @@
         </option>
         <option name="taskNames">
           <list>
-            <option value="clean" />
+            <option value="build" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -157,6 +162,28 @@
       <ForceTestExec>false</ForceTestExec>
       <method v="2" />
     </configuration>
+    <configuration name="JByteCustomLite [dependencies]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="dependencies" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <ForceTestExec>false</ForceTestExec>
+      <method v="2" />
+    </configuration>
     <configuration name="JByteCustomLite [mainClasses]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -169,28 +196,6 @@
         <option name="taskNames">
           <list>
             <option value="mainClasses" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <ForceTestExec>false</ForceTestExec>
-      <method v="2" />
-    </configuration>
-    <configuration name="JByteCustomLite [shadowJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="shadowJar" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -225,11 +230,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.JByteCustomLite [build]" />
+        <item itemvalue="Gradle.JByteCustomLite [dependencies]" />
         <item itemvalue="Gradle.JByteCustomLite [compileJava]" />
         <item itemvalue="Gradle.JByteCustomLite [mainClasses]" />
         <item itemvalue="Gradle.JByteCustomLite [test]" />
-        <item itemvalue="Gradle.JByteCustomLite [clean]" />
-        <item itemvalue="Gradle.JByteCustomLite [shadowJar]" />
       </list>
     </recent_temporary>
   </component>
@@ -345,7 +350,15 @@
       <option name="project" value="LOCAL" />
       <updated>1689432461501</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="stable version">
+      <option name="closed" value="true" />
+      <created>1689434296557</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1689434296557</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -379,7 +392,8 @@
     <MESSAGE value="improved file reading, improved gui compatibility, and other stuff" />
     <MESSAGE value="added drag and drop support and changed file loading system" />
     <MESSAGE value="added ASM support" />
-    <option name="LAST_COMMIT_MESSAGE" value="added ASM support" />
+    <MESSAGE value="stable version" />
+    <option name="LAST_COMMIT_MESSAGE" value="stable version" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

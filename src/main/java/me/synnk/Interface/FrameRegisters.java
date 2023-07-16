@@ -1,9 +1,11 @@
 package me.synnk.Interface;
 
 import me.synnk.Decompiler.Decompile;
+import me.synnk.Loaders.FileLoader;
 import me.synnk.Managers.SettingsManager;
 import me.synnk.Utils.LogType;
 import me.synnk.Utils.Logger;
+import org.benf.cfr.reader.api.CfrDriver;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
@@ -17,6 +19,7 @@ import javax.swing.tree.TreePath;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -123,7 +126,7 @@ public class FrameRegisters {
         if (!Frame.content.containsKey(file.getPath())) {
             if ("class".equals(getFileExtension(file))) {
                 try {
-                    String decompiledCode = readBytecode(file);
+                    String decompiledCode = String.valueOf(FileLoader.loadFile(file));
                     decompiled.setText(decompiledCode);
                     Frame.content.put(file.getPath(), decompiledCode);
                 } catch (IOException e) {
@@ -147,7 +150,7 @@ public class FrameRegisters {
     }
 
     public static String readBytecode(File file) throws IOException {
-        try (InputStream inputStream = new FileInputStream(file)) {
+        try (InputStream inputStream = Files.newInputStream(file.toPath())) {
             ClassReader classReader = new ClassReader(inputStream);
             ClassNode classNode = new ClassNode(Opcodes.ASM9);
             classReader.accept(classNode, ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES);
@@ -242,22 +245,6 @@ public class FrameRegisters {
             }
         } else {
             System.out.println("Skipping folder: " + file.getPath());
-        }
-    }
-
-    public static void fetchNewTheme() {
-        switch (SettingsManager.getSetting("defaultTheme")) {
-            case "0":
-                Frame.lightTheme.setSelected(true);
-                break;
-            case "1":
-                Frame.darkTheme.setSelected(true);
-                break;
-            case "2":
-                Frame.bareTheme.setSelected(true);
-                break;
-            default:
-                Logger.Log(LogType.ERROR, "defaultTheme option seems invalid.");
         }
     }
 }

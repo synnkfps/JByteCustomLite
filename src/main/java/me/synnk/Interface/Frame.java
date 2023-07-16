@@ -31,10 +31,6 @@ public class Frame extends JFrame {
     public static DefaultMutableTreeNode root = new DefaultMutableTreeNode("Drag and drop stuff here!");
     public static JTree dir = new JTree(root);
 
-    public static JRadioButtonMenuItem lightTheme = new JRadioButtonMenuItem("Light Theme");
-    public static JRadioButtonMenuItem darkTheme = new JRadioButtonMenuItem("Dark Theme");
-    public static JRadioButtonMenuItem bareTheme = new JRadioButtonMenuItem("Bare Bones Theme");
-
     public static HashMap<String, String> content = new HashMap<>();
 
     public void addMainComponents() {
@@ -73,13 +69,30 @@ public class Frame extends JFrame {
         JMenuBar menuBar = new JMenuBar();
 
         JMenu fileMenu = new JMenu("File");
-        JMenu settingsMenu = new JMenu("Settings");
-        JMenu miscMenu = new JMenu("Misc");
 
-        ArrayList<JRadioButtonMenuItem> themeItems = new ArrayList<>();
-        themeItems.add(lightTheme);
-        themeItems.add(darkTheme);
-        themeItems.add(bareTheme);
+        JMenu settingsMenu = new JMenu("Settings");
+
+        // new Theme system
+        JMenu theme = new JMenu("Theme");
+        ArrayList<JMenuItem> themes_names = new ArrayList<>();
+        JMenuItem light = new JMenuItem("Light Theme");
+        JMenuItem dark = new JMenuItem("Dark Theme");
+        JMenuItem bares = new JMenuItem("Bare Bones Theme");
+        themes_names.add(light);
+        themes_names.add(dark);
+        themes_names.add(bares);
+
+        // so we don't have to add each one of them individually
+        SwitchManager.setItems(themes_names);
+        themes_names.forEach(SwitchManager::addSwitchHook); // easier hook
+
+        theme.add(light);
+        theme.add(dark);
+        theme.add(bares);
+        settingsMenu.add(theme);
+        // troll is done
+
+        JMenu miscMenu = new JMenu("Misc");
 
         JMenuItem systemInfoItem = new JMenuItem("System Info");
         JMenu helpMenu = new JMenu("Help");
@@ -90,10 +103,6 @@ public class Frame extends JFrame {
                 "About", JOptionPane.INFORMATION_MESSAGE));
         helpMenu.add(aboutItem);
         //JMenuItem aboutItem = new JMenuItem("About");
-
-        SwitchManager.setItems(themeItems);
-        // replacement to the switch case stuff
-
 
         JMenuItem openItem = new JMenuItem("Open Jar/Class");
         JMenuItem closeJar = new JMenuItem("Close JAR");
@@ -119,8 +128,7 @@ public class Frame extends JFrame {
         miscMenu.add(systemInfoItem);
         miscMenu.add(aboutItem);
 
-        // Settings menu
-        themeItems.forEach(settingsMenu::add);
+
 
         // Actions
         openItem.addActionListener(e -> {
@@ -150,18 +158,6 @@ public class Frame extends JFrame {
                 in.append(i).append("\n");
             }
             JOptionPane.showMessageDialog(null, in);
-        });
-
-        // Dumb theme switcher
-        // WIP
-        lightTheme.addActionListener(e -> {
-            SwitchManager.switchTo(lightTheme, "0");
-        });
-        darkTheme.addActionListener(e -> {
-            SwitchManager.switchTo(darkTheme, "1");
-        });
-        bareTheme.addActionListener(e -> {
-            SwitchManager.switchTo(bareTheme, "2");
         });
 
         setJMenuBar(menuBar);

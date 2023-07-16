@@ -2,13 +2,14 @@ package me.synnk.Loaders;
 
 import me.synnk.Interface.Frame;
 import me.synnk.Interface.FrameRegisters;
+import org.benf.cfr.reader.api.CfrDriver;
 import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class FileLoader {
@@ -16,19 +17,19 @@ public class FileLoader {
     /*
     @TODO: Add something like an array or something like that so each opened file will have their own content on the decompiled text panel
      */
-    public static void loadFile(File file) throws IOException {
+    public static StringBuilder loadFile(File file) throws IOException {
+        StringBuilder decompiledCodeBuilder = new StringBuilder();
+
         if (!Objects.equals(file.getName().split("\\.")[1], "class")) {
             Frame.decompiled.setText(FrameRegisters.readBytecode(new File(file.getPath())));
-            return;
         }
 
         if (file.isFile()) { // Check if it is a file
-            try (InputStream inputStream = new FileInputStream(file)) {
+            try (InputStream inputStream = Files.newInputStream(file.toPath())) {
                 ClassReader classReader = new ClassReader(inputStream);
                 ClassNode classNode = new ClassNode(Opcodes.ASM9);
                 classReader.accept(classNode, ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES);
 
-                StringBuilder decompiledCodeBuilder = new StringBuilder();
 
                 // Visit class information
                 decompiledCodeBuilder.append("Class: ").append(classNode.name).append("\n");
@@ -57,6 +58,14 @@ public class FileLoader {
         } else {
             System.out.println("Skipping folder: " + file.getPath());
         }
+
+        CfrDriver driver = new CfrDriver.Builder().build();
+        driver.analyse(Arrays.asList(file.getPath()));
+
+        String analysisResult = driver.toString();
+        System.out.println(analysisResult);
+
+        return decompiledCodeBuilder;
     }
 
     private static String fieldToString(FieldNode fieldNode) {
