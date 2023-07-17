@@ -1,30 +1,30 @@
 package me.synnk.Interface;
 
 import me.synnk.Decompiler.Decompile;
-import me.synnk.Loaders.FileLoader;
 import me.synnk.Loaders.TransferHandle;
 import me.synnk.Main;
 import me.synnk.Managers.SettingsManager;
 import me.synnk.Managers.SwitchManager;
 import me.synnk.Renders.FileTreeRenderer;
-import me.synnk.Utils.LogType;
-import me.synnk.Utils.Logger;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.tree.*;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeCellRenderer;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.*;
-import java.util.*;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+import org.fife.ui.rtextarea.RTextScrollPane;
 
 public class Frame extends JFrame {
     public Integer width = 1400;
     public Integer height = 750;
-    public static JTextArea decompiled = new JTextArea();
+    public static RSyntaxTextArea decompiled = new RSyntaxTextArea();
     public static JScrollPane scrollPane = new JScrollPane(decompiled);
     public static JLabel className = new JLabel("Current Class: ");
     public static ArrayList<String> files = new ArrayList<>();
@@ -45,9 +45,14 @@ public class Frame extends JFrame {
         // File Name
         className.setBounds(300, 15, 400, 20);
 
+        RTextScrollPane scrollPane = new RTextScrollPane(decompiled);
+        add(scrollPane);
+
         // Decompiled class / method content
         decompiled.setText("decompiled class stuff will appear here.");
+        decompiled.setFont(new Font("consolas", Font.PLAIN, 12));
         scrollPane.setBounds(300, 35, width - 320, height - 125);
+
 
         // Decompilers
         String[] dec = {"CFR v0.152", "Procyon 1.0.0", "QuiltFlower", "FernFlower", "Jadx"};
@@ -180,6 +185,8 @@ public class Frame extends JFrame {
     }
 
     public Frame() {
+        decompiled.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+
         addMenuBar();
         addMainComponents();
 

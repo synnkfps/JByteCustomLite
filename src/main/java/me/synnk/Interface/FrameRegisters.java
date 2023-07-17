@@ -118,6 +118,7 @@ public class FrameRegisters {
 
             } else {
                 String output = loadTextFile(file);
+                decompiled.setCaretPosition(0);
                 decompiled.setText(output);
                 Frame.content.put(file.getPath(), output);
             }

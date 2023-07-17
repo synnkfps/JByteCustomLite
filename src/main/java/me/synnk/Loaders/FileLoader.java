@@ -19,7 +19,6 @@ public class FileLoader {
     public static StringBuilder loadClass(File file) {
 
         try {
-
             decompiled = null;
             OutputSinkFactory mySink = new OutputSinkFactory() {
                 @Override

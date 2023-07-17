@@ -24,6 +24,8 @@ dependencies {
     implementation 'org.ow2.asm:asm:9.5'
     implementation 'org.ow2.asm:asm-tree:9.5'
     implementation 'org.ow2.asm:asm-util:9.5'
+
+    implementation 'com.fifesoft:rsyntaxtextarea:3.3.3'
 }
 
 tasks.register('shadowJar', Jar) {
