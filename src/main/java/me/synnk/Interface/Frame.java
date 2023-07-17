@@ -92,6 +92,22 @@ public class Frame extends JFrame {
         settingsMenu.add(theme);
         // troll is done
 
+        JMenu decompiler = new JMenu("Decompiler");
+        JMenuItem methods_and_fields = new JMenuItem("Methods n' Fields");
+        JMenuItem CFR_DECOMPILER = new JMenuItem("CFR Decompiler");
+
+        CFR_DECOMPILER.addActionListener(e -> {
+            try {
+                Decompile.decompileClass(Main.actualFile.getPath());
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        decompiler.add(methods_and_fields);
+        decompiler.add(CFR_DECOMPILER);
+        settingsMenu.add(decompiler);
+
         JMenu miscMenu = new JMenu("Misc");
 
         JMenuItem systemInfoItem = new JMenuItem("System Info");

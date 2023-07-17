@@ -2,6 +2,9 @@ package me.synnk.Loaders;
 
 import me.synnk.Interface.Frame;
 import me.synnk.Interface.FrameRegisters;
+import me.synnk.Main;
+import me.synnk.Utils.LogType;
+import me.synnk.Utils.Logger;
 import org.benf.cfr.reader.api.CfrDriver;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.Opcodes;
@@ -17,55 +20,40 @@ public class FileLoader {
     /*
     @TODO: Add something like an array or something like that so each opened file will have their own content on the decompiled text panel
      */
-    public static StringBuilder loadFile(File file) throws IOException {
+    public static StringBuilder loadFile(File file) {
         StringBuilder decompiledCodeBuilder = new StringBuilder();
 
-        if (!Objects.equals(file.getName().split("\\.")[1], "class")) {
-            Frame.decompiled.setText(FrameRegisters.readBytecode(new File(file.getPath())));
-        }
+        if (file.isFile()) {
+                try (InputStream inputStream = Files.newInputStream(file.toPath())) {
+                    ClassReader classReader = new ClassReader(inputStream);
+                    ClassNode classNode = new ClassNode(Opcodes.ASM9);
+                    classReader.accept(classNode, ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES);
 
-        if (file.isFile()) { // Check if it is a file
-            try (InputStream inputStream = Files.newInputStream(file.toPath())) {
-                ClassReader classReader = new ClassReader(inputStream);
-                ClassNode classNode = new ClassNode(Opcodes.ASM9);
-                classReader.accept(classNode, ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES);
+                    // Visit class information
+                    decompiledCodeBuilder.append("Class: ").append(classNode.name).append("\n");
+                    decompiledCodeBuilder.append("Superclass: ").append(classNode.superName).append("\n");
+                    decompiledCodeBuilder.append("Access: ").append(classNode.access).append("\n\n");
 
+                    // Visit fields
+                    decompiledCodeBuilder.append("Fields:").append("\n");
+                    for (FieldNode field : classNode.fields) {
+                        decompiledCodeBuilder.append(fieldToString(field)).append("\n");
+                    }
+                    decompiledCodeBuilder.append("\n");
 
-                // Visit class information
-                decompiledCodeBuilder.append("Class: ").append(classNode.name).append("\n");
-                decompiledCodeBuilder.append("Superclass: ").append(classNode.superName).append("\n");
-                decompiledCodeBuilder.append("Access: ").append(classNode.access).append("\n\n");
-
-                // Visit fields
-                decompiledCodeBuilder.append("Fields:").append("\n");
-                for (FieldNode field : classNode.fields) {
-                    decompiledCodeBuilder.append(fieldToString(field)).append("\n");
+                    // Visit methods
+                    decompiledCodeBuilder.append("Methods:").append("\n");
+                    for (MethodNode method : classNode.methods) {
+                        decompiledCodeBuilder.append(methodToString(method)).append("\n");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                decompiledCodeBuilder.append("\n");
-
-                // Visit methods
-                decompiledCodeBuilder.append("Methods:").append("\n");
-                for (MethodNode method : classNode.methods) {
-                    decompiledCodeBuilder.append(methodToString(method)).append("\n");
-                }
-
-                String fileContent = decompiledCodeBuilder.toString();
-                Frame.decompiled.setText(fileContent);
-                Frame.content.put(file.getPath(), fileContent);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         } else {
-            System.out.println("Skipping folder: " + file.getPath());
+            Logger.Log(LogType.INFO, "Skipping folder " + file.getName());
         }
 
-        CfrDriver driver = new CfrDriver.Builder().build();
-        driver.analyse(Arrays.asList(file.getPath()));
-
-        String analysisResult = driver.toString();
-        System.out.println(analysisResult);
-
-        return decompiledCodeBuilder;
+        return new StringBuilder(decompiledCodeBuilder.toString());
     }
 
     private static String fieldToString(FieldNode fieldNode) {

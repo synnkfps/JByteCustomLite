@@ -1,14 +1,8 @@
 package me.synnk.Interface;
 
-import me.synnk.Decompiler.Decompile;
 import me.synnk.Loaders.FileLoader;
-import me.synnk.Managers.SettingsManager;
-import me.synnk.Utils.LogType;
-import me.synnk.Utils.Logger;
-import org.benf.cfr.reader.api.CfrDriver;
+import me.synnk.Main;
 import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;
 
@@ -20,10 +14,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
 import java.nio.file.Files;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Enumeration;
-import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -112,31 +103,28 @@ public class FrameRegisters {
                             filePathBuilder.append(File.separator).append(w[i].toString());
                         }
                         File selectedFile = new File(String.valueOf(filePathBuilder));
-                        handleFileDoubleClick(selectedFile);
+                        handleClassClick(selectedFile);
                     }
                 }
             }
         });
     }
 
-
-    private static void handleFileDoubleClick(File file) {
-        // Handle the double-clicked file here
-
-        if (!Frame.content.containsKey(file.getPath())) {
-            if ("class".equals(getFileExtension(file))) {
-                try {
-                    String decompiledCode = String.valueOf(FileLoader.loadFile(file));
-                    decompiled.setText(decompiledCode);
-                    Frame.content.put(file.getPath(), decompiledCode);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                loadTextFile(file);
-            }
-        } else {
+    // Handle the clicked file
+    private static void handleClassClick(File file) {
+        if (Frame.content.containsKey(file.getPath())) {
             decompiled.setText(Frame.content.get(file.getPath()));
+        } else {
+            if (getFileExtension(file).equals("class")) {
+                String output = String.valueOf(FileLoader.loadFile(file));
+                Frame.decompiled.setText(output);
+                Frame.content.put(file.getPath(), output);
+
+            } else {
+                String output = loadTextFile(file);
+                decompiled.setText(output);
+                Frame.content.put(file.getPath(), output);
+            }
         }
     }
 
@@ -149,102 +137,21 @@ public class FrameRegisters {
         return "";
     }
 
-    public static String readBytecode(File file) throws IOException {
-        try (InputStream inputStream = Files.newInputStream(file.toPath())) {
-            ClassReader classReader = new ClassReader(inputStream);
-            ClassNode classNode = new ClassNode(Opcodes.ASM9);
-            classReader.accept(classNode, ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES);
-
-            StringBuilder bytecodeBuilder = new StringBuilder();
-
-            // Visit class information
-            bytecodeBuilder.append("Class: ").append(classNode.name).append("\n");
-            bytecodeBuilder.append("Superclass: ").append(classNode.superName).append("\n");
-            bytecodeBuilder.append("Access: ").append(classNode.access).append("\n\n");
-
-            // Visit fields
-            bytecodeBuilder.append("Fields:").append("\n");
-            for (FieldNode field : classNode.fields) {
-                bytecodeBuilder.append(fieldToString(field)).append("\n");
-            }
-            bytecodeBuilder.append("\n");
-
-            // Visit methods
-            bytecodeBuilder.append("Methods:").append("\n");
-            for (MethodNode method : classNode.methods) {
-                bytecodeBuilder.append(methodToString(method)).append("\n");
-            }
-
-            return bytecodeBuilder.toString();
-        }
-    }
-
-    private static String fieldToString(FieldNode fieldNode) {
-        String access = getAccessModifier(fieldNode.access);
-        return access + " " + fieldNode.name + ": " + fieldNode.desc;
-    }
-
-    private static String methodToString(MethodNode methodNode) {
-        String access = getAccessModifier(methodNode.access);
-        return access + " " + methodNode.name + methodNode.desc;
-    }
-
-    private static String getAccessModifier(int access) {
-        StringBuilder modifier = new StringBuilder();
-
-        if ((access & Opcodes.ACC_PUBLIC) != 0) {
-            modifier.append("public ");
-        } else if ((access & Opcodes.ACC_PROTECTED) != 0) {
-            modifier.append("protected ");
-        } else if ((access & Opcodes.ACC_PRIVATE) != 0) {
-            modifier.append("private ");
-        } else {
-            modifier.append("package-private ");
-        }
-
-        if ((access & Opcodes.ACC_STATIC) != 0) {
-            modifier.append("static ");
-        }
-
-        if ((access & Opcodes.ACC_FINAL) != 0) {
-            modifier.append("final ");
-        }
-
-        if ((access & Opcodes.ACC_ABSTRACT) != 0) {
-            modifier.append("abstract ");
-        }
-
-        if ((access & Opcodes.ACC_SYNCHRONIZED) != 0) {
-            modifier.append("synchronized ");
-        }
-
-        if ((access & Opcodes.ACC_NATIVE) != 0) {
-            modifier.append("native ");
-        }
-
-        if ((access & Opcodes.ACC_STRICT) != 0) {
-            modifier.append("strictfp ");
-        }
-
-        return modifier.toString().trim();
-    }
-
-    private static void loadTextFile(File file) {
+    public static String loadTextFile(File file) {
+        StringBuilder output = new StringBuilder();
         if (file.isFile()) {
             try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                StringBuilder fileContentBuilder = new StringBuilder();
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    fileContentBuilder.append(line).append("\n");
+                    output.append(line).append("\n");
                 }
-                String fileContent = fileContentBuilder.toString();
-                Frame.content.put(file.getPath(), fileContent);
-                decompiled.setText(fileContent);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } else {
             System.out.println("Skipping folder: " + file.getPath());
         }
+
+        return String.valueOf(output);
     }
 }

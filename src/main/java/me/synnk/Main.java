@@ -5,16 +5,18 @@ import com.formdev.flatlaf.FlatLightLaf;
 import me.synnk.Interface.Frame;
 import me.synnk.Managers.SettingsManager;
 
+import java.io.File;
 import java.util.Objects;
 
 public class Main {
     public static String NAME = "JByteCustom Lite";
-    public static String VERSION = "0.9.2";
+    public static String VERSION = "0.9.3";
 
     public static Integer LIGHT = 0;
     public static Integer DARK = 1;
     public static Integer BARE_BONES = 2;
     public static Integer PreferredTheme = LIGHT;
+    public static File actualFile;
 
     public static void main(String[] args) {
         System.out.println("Hello world!");

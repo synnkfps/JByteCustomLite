@@ -13,7 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class Decompile {
-    public void decompileClass(String classFilePath) throws Exception {
+    public static void decompileClass(String classFilePath) throws Exception {
         byte[] bytecode = readClassFile(classFilePath); // Implement the logic to read the class file
 
         ClassReader classReader = new ClassReader(bytecode);
