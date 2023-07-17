@@ -1,6 +1,6 @@
 package me.synnk.Interface;
 
-import me.synnk.Loaders.FileLoader;
+import me.synnk.Loaders.ClassLoader;
 import me.synnk.Main;
 
 import javax.swing.*;
@@ -19,10 +19,8 @@ import static me.synnk.Interface.Frame.*;
 public class FrameRegisters {
     private static final JTree dir = Frame.dir;
 
-    public static void fileLoaded(File selectedFile) {
-
-        decompiled.setText(selectedFile.getName());
-        className.setText("Current Class: " + selectedFile.getName());
+    public static void loadJar(File selectedFile) {
+        className.setText("Current File: " + selectedFile.getName());
 
         try (JarFile jar = new JarFile(new File(selectedFile.getAbsolutePath()))) {
             root.setUserObject(jar.getName());
@@ -35,6 +33,7 @@ public class FrameRegisters {
             while (entries.hasMoreElements()) {
                 JarEntry entry = entries.nextElement();
                 String entryName = entry.getName();
+                System.out.println(entryName.contains("$"));
                 String[] pathElements = entryName.split("/"); // Split entry name into path elements
 
                 DefaultMutableTreeNode currentNode = rootNode;
@@ -112,7 +111,7 @@ public class FrameRegisters {
             decompiled.setText(Frame.content.get(file.getPath()));
         } else {
             if (getFileExtension(file).equals("class")) {
-                String output = String.valueOf(FileLoader.loadClass(file));
+                String output = String.valueOf(ClassLoader.loadClass(file));
                 Frame.decompiled.setText(output);
                 Frame.content.put(file.getPath(), output);
 

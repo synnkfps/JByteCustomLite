@@ -9,7 +9,7 @@ import org.objectweb.asm.tree.*;
 import java.io.*;
 import java.util.*;
 
-public class FileLoader {
+public class ClassLoader {
     private static String decompiled;
 
     /**
@@ -47,6 +47,18 @@ public class FileLoader {
             return new StringBuilder(sw.toString());
         }
         return new StringBuilder(decompiled);
+    }
+
+    public static String koffee(File file) {
+        SourceCodeGenerator sourceCodeGenerator = new SourceCodeGenerator();
+        DisassemblyContext context = new DisassemblyContext(cn.name);
+        if (mn == null) {
+            return ClassDisassemblyKt.disassemble(cn);
+        } else {
+            MethodDisassemblyKt.disassembleMethod(mn, sourceCodeGenerator, context);
+        }
+
+        return sourceCodeGenerator.toString();
     }
 
     private static String fieldToString(FieldNode fieldNode) {

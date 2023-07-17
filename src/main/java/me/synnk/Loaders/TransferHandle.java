@@ -5,9 +5,7 @@ import me.synnk.Interface.FrameRegisters;
 import javax.swing.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 public class TransferHandle extends TransferHandler {
@@ -38,7 +36,7 @@ public class TransferHandle extends TransferHandler {
             for (File file : files) {
                 String filePath = file.getAbsolutePath();
                 System.out.println("Imported file path: " + filePath);
-                FrameRegisters.fileLoaded(new File(filePath));
+                FrameRegisters.loadJar(new File(filePath));
             }
 
             return true; // Import successful

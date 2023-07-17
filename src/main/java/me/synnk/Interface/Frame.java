@@ -163,7 +163,7 @@ public class Frame extends JFrame {
 
             int action = chooser.showOpenDialog(null);
             if (action == JFileChooser.APPROVE_OPTION) {
-                FrameRegisters.fileLoaded(new File(chooser.getSelectedFile().getPath()));
+                FrameRegisters.loadJar(new File(chooser.getSelectedFile().getPath()));
             }
         });
 

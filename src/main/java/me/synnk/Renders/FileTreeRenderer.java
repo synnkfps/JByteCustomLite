@@ -12,7 +12,6 @@ public class FileTreeRenderer {
         public CustomTreeCellRenderer(JTree dir) {
             matrix = dir;
         }
-
         @Override
         public Dimension getPreferredSize() {
             // Override preferred size to allow for a larger width
