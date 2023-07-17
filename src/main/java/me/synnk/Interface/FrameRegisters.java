@@ -1,5 +1,6 @@
 package me.synnk.Interface;
 
+import me.synnk.Discord.Discord;
 import me.synnk.Loaders.ClassLoader;
 import me.synnk.Main;
 
@@ -21,6 +22,7 @@ public class FrameRegisters {
 
     public static void loadJar(File selectedFile) {
         className.setText("Current File: " + selectedFile.getName());
+        Discord.updatePresence("On " + selectedFile.getName(), Discord.presence.state);
 
         try (JarFile jar = new JarFile(new File(selectedFile.getAbsolutePath()))) {
             root.setUserObject(jar.getName());
@@ -33,7 +35,7 @@ public class FrameRegisters {
             while (entries.hasMoreElements()) {
                 JarEntry entry = entries.nextElement();
                 String entryName = entry.getName();
-                System.out.println(entryName.contains("$"));
+
                 String[] pathElements = entryName.split("/"); // Split entry name into path elements
 
                 DefaultMutableTreeNode currentNode = rootNode;
@@ -41,11 +43,14 @@ public class FrameRegisters {
                     if (!pathElement.isEmpty()) {
                         DefaultMutableTreeNode newNode = getChildNode(currentNode, pathElement);
                         if (newNode == null) {
+                            // we load it on the cache, not on the JTree (so its only "visible" on the backend)
+                            if (entryName.contains("$")) {
+                                continue; // Skip entries with "$" in the name
+                            }
                             newNode = new DefaultMutableTreeNode(pathElement);
                             model.insertNodeInto(newNode, currentNode, currentNode.getChildCount());
                         }
                         currentNode = newNode;
-
                     }
                 }
 
@@ -63,6 +68,7 @@ public class FrameRegisters {
                         }
                     }
                 }
+
             }
 
             model.reload(); // Refresh the JTree
@@ -114,12 +120,14 @@ public class FrameRegisters {
                 String output = String.valueOf(ClassLoader.loadClass(file));
                 Frame.decompiled.setText(output);
                 Frame.content.put(file.getPath(), output);
+                Discord.updatePresence(Discord.presence.details, "At " + file.getName());
 
             } else {
                 String output = loadTextFile(file);
                 decompiled.setCaretPosition(0);
                 decompiled.setText(output);
                 Frame.content.put(file.getPath(), output);
+                Discord.updatePresence(Discord.presence.details, "Viewing " + file.getName());
             }
         }
 

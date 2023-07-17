@@ -1,6 +1,7 @@
 package me.synnk.Interface;
 
 import me.synnk.Decompiler.Decompile;
+import me.synnk.Discord.Discord;
 import me.synnk.Loaders.TransferHandle;
 import me.synnk.Main;
 import me.synnk.Managers.SettingsManager;
@@ -153,6 +154,7 @@ public class Frame extends JFrame {
 
         // Actions
         openItem.addActionListener(e -> {
+            Discord.updatePresence("Choosing a file...", Discord.presence.state);
             JFileChooser chooser = new JFileChooser();
             chooser.setDialogType(JFileChooser.OPEN_DIALOG);
             chooser.setCurrentDirectory(new File(System.getProperty("user.home") + File.separator + "Desktop"));

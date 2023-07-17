@@ -2,6 +2,7 @@ package me.synnk;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
+import me.synnk.Discord.Discord;
 import me.synnk.Interface.Frame;
 import me.synnk.Managers.SettingsManager;
 
@@ -25,6 +26,8 @@ public class Main {
         SettingsManager.initSettings();
         SettingsManager.load();
         SettingsManager.clearCache();
+
+        Discord.init();
 
         if (Objects.equals(PreferredTheme, LIGHT)) {
             FlatLightLaf.setup();

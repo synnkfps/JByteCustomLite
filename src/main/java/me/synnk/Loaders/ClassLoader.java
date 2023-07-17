@@ -49,18 +49,6 @@ public class ClassLoader {
         return new StringBuilder(decompiled);
     }
 
-    public static String koffee(File file) {
-        SourceCodeGenerator sourceCodeGenerator = new SourceCodeGenerator();
-        DisassemblyContext context = new DisassemblyContext(cn.name);
-        if (mn == null) {
-            return ClassDisassemblyKt.disassemble(cn);
-        } else {
-            MethodDisassemblyKt.disassembleMethod(mn, sourceCodeGenerator, context);
-        }
-
-        return sourceCodeGenerator.toString();
-    }
-
     private static String fieldToString(FieldNode fieldNode) {
         String access = getAccessModifier(fieldNode.access);
         return access + " " + fieldNode.name + ": " + fieldNode.desc;

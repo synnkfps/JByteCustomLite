@@ -4,17 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="31ac594c-d762-4f00-a262-d5ee5e1a416d" name="Changes" comment="CFR added!!! yay!">
+    <list default="true" id="31ac594c-d762-4f00-a262-d5ee5e1a416d" name="Changes" comment="later i will add some other stuff, such as bytecode viewers, CFR options, other decompilers, etc">
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Discord/Discord.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Interface/Frame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Interface/Frame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Interface/FrameRegisters.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Interface/FrameRegisters.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Loaders/FileLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Loaders/ClassLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Loaders/ReadBytecode.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Loaders/TransferHandle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Loaders/TransferHandle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Loaders/ClassLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Loaders/ClassLoader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Managers/TreeManager.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Renders/FileTreeRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/synnk/Renders/FileTreeRenderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/synnk/Utils/EnumerationUtils.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -393,7 +390,15 @@
       <option name="project" value="LOCAL" />
       <updated>1689591387144</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="later i will add some other stuff, such as bytecode viewers, CFR options, other decompilers, etc">
+      <option name="closed" value="true" />
+      <created>1689626028789</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1689626028789</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -432,7 +437,8 @@
     <MESSAGE value="organized" />
     <MESSAGE value="i gotta add cfr tho" />
     <MESSAGE value="CFR added!!! yay!" />
-    <option name="LAST_COMMIT_MESSAGE" value="CFR added!!! yay!" />
+    <MESSAGE value="later i will add some other stuff, such as bytecode viewers, CFR options, other decompilers, etc" />
+    <option name="LAST_COMMIT_MESSAGE" value="later i will add some other stuff, such as bytecode viewers, CFR options, other decompilers, etc" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

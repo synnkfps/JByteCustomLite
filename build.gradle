@@ -20,6 +20,7 @@ dependencies {
     include 'com.formdev:flatlaf:2.6'
     include 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.20'
     include 'org.benf:cfr:0.152'
+    include 'club.minnced:java-discord-rpc:2.0.2'
 
     implementation 'org.ow2.asm:asm:9.5'
     implementation 'org.ow2.asm:asm-tree:9.5'
