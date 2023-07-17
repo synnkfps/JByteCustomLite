@@ -17,7 +17,6 @@ public class SettingsManager {
 
     // @TODO: dynamic path
     public static String path = System.getProperty("user.home") + "\\Documents\\jbclite.jbc";
-    //public static String path = "C:\\Users\\SynnK\\IdeaProjects\\JByteCustomLite\\src\\main\\resources\\jbclite.jbc";
 
     public static void clearCache() {
         File file = new File("cache_folder" + File.separator);
@@ -69,15 +68,6 @@ public class SettingsManager {
             }
         }
         return tmp;
-    }
-
-    // useless function
-    public static void verifySettings() {
-        boolean stillValid = false;
-        boolean hasExtras = false;
-        for (String i: readSettings()) {
-            String splitted = i.split(":")[1].toLowerCase(); // cuz :[0] will be the setting name
-        }
     }
 
     public static void append(String setting_name, String value) {
@@ -158,11 +148,8 @@ public class SettingsManager {
      */
     public static void initSettings() {
         Logger.Log(LogType.INFO, "Settings Manager Initializing...");
-        // changeSetting("showWelcome", "false");
-        // changeSetting("defaultTheme", "0");
         for (String setting: readSettings()) {
             Logger.Log(LogType.INFO, "Setting initialized > " + setting);
         }
-        // verifySettings();
     }
 }

@@ -126,6 +126,8 @@ public class FrameRegisters {
                 Frame.content.put(file.getPath(), output);
             }
         }
+
+        Main.actualFile = file;
     }
 
     private static String getFileExtension(File file) {
