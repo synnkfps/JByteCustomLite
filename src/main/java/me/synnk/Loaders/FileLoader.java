@@ -1,59 +1,53 @@
 package me.synnk.Loaders;
 
-import me.synnk.Interface.Frame;
-import me.synnk.Interface.FrameRegisters;
-import me.synnk.Main;
-import me.synnk.Utils.LogType;
-import me.synnk.Utils.Logger;
 import org.benf.cfr.reader.api.CfrDriver;
-import org.objectweb.asm.ClassReader;
+import org.benf.cfr.reader.api.OutputSinkFactory;
+import org.benf.cfr.reader.api.SinkReturns;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.*;
 
 public class FileLoader {
+    private static String decompiled;
 
-    /*
-    @TODO: Add something like an array or something like that so each opened file will have their own content on the decompiled text panel
+    /**
+     * @TODO: if the user wants bytecode analysed (not bytecode disassembled) code, just send em the ASM method, if the user wants the CFR output, send them the CFR output
+     * @TODO: these selections is under the [Settings -> Decompiler] menu
      */
-    public static StringBuilder loadFile(File file) {
-        StringBuilder decompiledCodeBuilder = new StringBuilder();
+    public static StringBuilder loadClass(File file) {
 
-        if (file.isFile()) {
-                try (InputStream inputStream = Files.newInputStream(file.toPath())) {
-                    ClassReader classReader = new ClassReader(inputStream);
-                    ClassNode classNode = new ClassNode(Opcodes.ASM9);
-                    classReader.accept(classNode, ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES);
+        try {
 
-                    // Visit class information
-                    decompiledCodeBuilder.append("Class: ").append(classNode.name).append("\n");
-                    decompiledCodeBuilder.append("Superclass: ").append(classNode.superName).append("\n");
-                    decompiledCodeBuilder.append("Access: ").append(classNode.access).append("\n\n");
-
-                    // Visit fields
-                    decompiledCodeBuilder.append("Fields:").append("\n");
-                    for (FieldNode field : classNode.fields) {
-                        decompiledCodeBuilder.append(fieldToString(field)).append("\n");
+            decompiled = null;
+            OutputSinkFactory mySink = new OutputSinkFactory() {
+                @Override
+                public List<SinkClass> getSupportedSinks(SinkType sinkType, Collection<SinkClass> collection) {
+                    if (sinkType == SinkType.JAVA && collection.contains(SinkClass.DECOMPILED)) {
+                        return Arrays.asList(SinkClass.DECOMPILED, SinkClass.STRING);
+                    } else {
+                        return Collections.singletonList(SinkClass.STRING);
                     }
-                    decompiledCodeBuilder.append("\n");
-
-                    // Visit methods
-                    decompiledCodeBuilder.append("Methods:").append("\n");
-                    for (MethodNode method : classNode.methods) {
-                        decompiledCodeBuilder.append(methodToString(method)).append("\n");
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
-        } else {
-            Logger.Log(LogType.INFO, "Skipping folder " + file.getName());
+                @Override
+                public <T> Sink<T> getSink(SinkType sinkType, SinkClass sinkClass) {
+                    if (sinkType == SinkType.JAVA && sinkClass == SinkClass.DECOMPILED) {
+                        return x -> { decompiled = ((SinkReturns.Decompiled)x).getJava(); };
+                    }
+                    return ignore -> {};
+                }
+            };
+            CfrDriver cfrDriver = new CfrDriver.Builder().withOutputSink(mySink).build();
+            cfrDriver.analyse(Collections.singletonList(file.getPath()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            e.printStackTrace(pw);
+            return new StringBuilder(sw.toString());
         }
-
-        return new StringBuilder(decompiledCodeBuilder.toString());
+        return new StringBuilder(decompiled);
     }
 
     private static String fieldToString(FieldNode fieldNode) {

@@ -2,9 +2,6 @@ package me.synnk.Interface;
 
 import me.synnk.Loaders.FileLoader;
 import me.synnk.Main;
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.tree.*;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -13,7 +10,6 @@ import javax.swing.tree.TreePath;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
-import java.nio.file.Files;
 import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -116,7 +112,7 @@ public class FrameRegisters {
             decompiled.setText(Frame.content.get(file.getPath()));
         } else {
             if (getFileExtension(file).equals("class")) {
-                String output = String.valueOf(FileLoader.loadFile(file));
+                String output = String.valueOf(FileLoader.loadClass(file));
                 Frame.decompiled.setText(output);
                 Frame.content.put(file.getPath(), output);
 
